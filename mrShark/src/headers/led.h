@@ -51,10 +51,21 @@
 #define COLOR_B		PB1
 
 // -------- VARIABLES --------
-
+struct led_color{
+	uint8_t led_number;
+	uint8_t led_on;
+	uint8_t color_r;
+	uint8_t color_g;
+	uint8_t color_b;
+};
+extern volatile struct led_color led_color_N;
+extern volatile struct led_color led_color_O;
+extern volatile struct led_color led_color_S;
+extern volatile struct led_color led_color_W;
 
 // -------- FUNCTIONS --------
 void led_init(void);
+void led_init_timer(void);
 void led_on(uint8_t led);
 void led_off(uint8_t led);
 void led_all_on(void);

@@ -13,8 +13,11 @@ int main(void){
 	// initiate system
 	sys_init();
 
-	led_on(LED_STATUS);
+	led_on(LED_O);
+	LED2_PORT |= (1<<LED2);
 	led_set_allcolors();
+
+	//led_on(LED_STATUS);
 
 	uart_send_system_info(SYS_NAME, SYS_VERSION, SYS_PUBLISHER);
 
@@ -36,16 +39,7 @@ int main(void){
 	 */
 	while(1){
 
-		if(led_status){
-			led_off(LED_STATUS);
-			led_status = 0x00;
-		}
-		else{
-			led_on(LED_STATUS);
-			led_status = 0xff;
-		}
-
-		c = control_get();
+		/*c = control_get();
 
 		if(c){
 			led_all_off();
@@ -93,7 +87,7 @@ int main(void){
 			speed = MOTOR_SPEED_MIN;
 			uart_puts(":min_speed");
 			led_on(LED_W);
-		}
+		}*/
 
 	}
 

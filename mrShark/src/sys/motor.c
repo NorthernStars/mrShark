@@ -13,13 +13,7 @@
 void motor_init(void){
 
 	// test if motor drivers are available
-	led_all_on();
-	led_set_allcolors();
-
 	motor_test();
-
-	led_all_off();
-	led_set_nocolors();
 }
 
 /**
