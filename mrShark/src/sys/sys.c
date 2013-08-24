@@ -15,7 +15,7 @@ void sys_init(void){
 	// call libraries init functions
 	i2c_init();
 	led_init();
-	//motor_init();
+	motor_init();
 	control_init();
 
 	sei();

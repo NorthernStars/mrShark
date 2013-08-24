@@ -18,14 +18,13 @@
 #define MOTOR_STANDBY		0x00
 #define MOTOR_FORWARD		0x01
 #define MOTOR_REVERSE		0x02
-#define	 MOTOR_BRAKE		0x03
+#define	MOTOR_BRAKE			0x03
 
 #define MOTOR_SPEED_MIN		0x06
 #define MOTOR_SPEED_MAX		0x29
 #define MOTOR_SPEED_HALF	0x1f
 
 // -------- VARIABLES --------
-
 
 // -------- FUNCTIONS --------
 void motor_init(void);

@@ -17,19 +17,6 @@ void uart_init(void)
 
     UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);  		// asynchron 8N1
     UCSR0B |= (1<<RXEN0) | (1<<TXEN0);      // enable rx and tx
-
-    // send status information
-}
-
-/**
- * Sends status information via uart
- */
-void uart_send_system_info(char *productName, char *productVersion, char *publisher){
-	uart_puts(publisher);
-	uart_puts(": ");
-	uart_puts(productName);
-	uart_puts(" ver. ");
-	uart_puts(productVersion);
 }
 
 /**

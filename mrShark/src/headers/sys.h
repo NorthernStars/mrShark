@@ -6,14 +6,14 @@
  */
 
 #ifndef F_CPU
-#define F_CPU 			1843200UL
+#define F_CPU 			11059200UL
 #endif
 
 #ifndef SYS_H_
 #define SYS_H_
 // -------- SYS_INFO --------
 #define SYS_NAME		"mrShark"
-#define SYS_VERSION	"0.8"
+#define SYS_VERSION		"0.8"
 #define SYS_PUBLISHER	"NorthernStars"
 
 
@@ -24,9 +24,9 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-
 #include "../lib/i2c/i2cmaster.h"
 #include "../lib/uart/uart.h"
+#include "config.h"
 #include "led.h"
 #include "motor.h"
 #include "control.h"
@@ -39,7 +39,7 @@
 
 /* 9600 baud */
 #define UART_BAUD_RATE		115200UL
-//#define UART_BAUD_RATE		9600UL
+#define SUART_BAUD_RATE		9600UL
 
 // -------- FUNCTIONS --------
 void sys_init(void);

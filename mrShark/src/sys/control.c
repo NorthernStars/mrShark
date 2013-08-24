@@ -7,28 +7,97 @@
 
 #include "../headers/sys.h"
 
+// -------- VARIABLES --------
+volatile uint8_t ctrl_cmd_motorL = CMD_V2_STOP;
+volatile uint8_t ctrl_val_motorL = 0x00;
+volatile uint8_t ctrl_flag_motorL = FALSE;
+volatile uint8_t ctrl_cmd_motorR = CMD_V2_STOP;
+volatile uint8_t ctrl_val_motorR = 0x00;
+volatile uint8_t ctrl_flag_motorR = FALSE;
+
+volatile uint8_t ctrl_val_id = 0x00;
+volatile uint8_t ctrl_flag_id = FALSE;
+
+volatile uint8_t ctrl_state = CMD_V2_RESERVED;
+volatile uint8_t ctrl_protocol_version = 0;
+volatile uint8_t ctrl_cur_bot_id = BOT_NONE;
+
+
 /**
  * Initiates motors
  */
 void control_init(void){
 
 	// set shutdown io as output
-	// and switches ir communication on
-	//IR_SD_DDR |= (1<<IR_SD);
-	//control_IR_shutdown();
+	IR_SD_DDR |= (1<<IR_SD);
 
 	// initiate uart
 	uart_init();
 
+	// enable uart interrupt
+	UCSR0B |= (1<<RXCIE0);
+
+	// send system information
+	control_send_system_info(SYS_NAME, SYS_VERSION, SYS_PUBLISHER);
+
 }
 
 /**
- * Gets recieved char from uart
+ * Returns direction command of a motor and resets flag
  */
-uint8_t control_get(void){
+uint8_t control_getMotorCommand(uint8_t motor){
+	uint8_t cmd;
+
+	// get command
+	if( motor == MOTOR_ADDR_L ){
+		ctrl_flag_motorL = FALSE;
+		cmd = ctrl_cmd_motorL;
+	}
+	else{
+		ctrl_flag_motorR = FALSE;
+		cmd = ctrl_cmd_motorR;
+	}
+
+	// translate command to motor command
+	if( cmd == CMD_V2_STOP )
+		return MOTOR_BRAKE;
+	else if( cmd == CMD_V2_LEFT_FWD || cmd == CMD_V2_RIGHT_FWD )
+		return MOTOR_FORWARD;
+	else
+		return MOTOR_REVERSE;
+}
+
+/**
+ * Returns speed value of a motor and resets flag
+ */
+uint8_t control_getMotorSpeed(uint8_t motor){
+	if(motor == MOTOR_ADDR_L){
+		ctrl_flag_motorL = FALSE;
+		return ctrl_val_motorL;
+	}
+	else{
+		ctrl_flag_motorR = FALSE;
+		return ctrl_val_motorR;
+	}
+}
+
+/**
+ * Gets recieved cmd from uart
+ */
+uint8_t control_getCmd(void){
 	return uart_getc();
 }
 
+/**
+ * Sends status information via uart
+ */
+void control_send_system_info(char *productName, char *productVersion, char *publisher){
+	uart_puts(publisher);
+	uart_puts(": ");
+	uart_puts(productName);
+	uart_puts(" ver. ");
+	uart_puts(productVersion);
+}
 
 /**
  * Shuts IR communictaion down
@@ -42,4 +111,138 @@ void control_IR_shutdown(void){
  */
 void control_IR_switchon(void){
 	IR_SD_PORT &= ~(1<<IR_SD);
+}
+
+/**
+ * Interrupt service routine for recieving ir command
+ */
+ISR(USART_RX_vect){
+
+	uint8_t cmd = UDR0;
+
+	// command control state machine for protocol version 2
+	if( ctrl_state == CMD_V2_RESERVED && cmd == CMD_V2_PROTOCOL_VERSION ){
+		// transimissison started
+		ctrl_state = CMD_V2_PROTOCOL_VERSION;
+		ctrl_protocol_version = 0;
+		ctrl_cur_bot_id = BOT_NONE;
+	}
+	else if( ctrl_state == CMD_V2_PROTOCOL_VERSION ){
+		// getting protocol version
+		ctrl_protocol_version = cmd;
+		ctrl_state = CTRL_STATE_INIT_READY;
+	}
+	else if( ctrl_state != CMD_V2_RESERVED && ctrl_protocol_version == 2 ){
+		// getting something for protocol version 2
+		switch(ctrl_state){
+
+		case CTRL_STATE_INIT_READY:
+			if( cmd == CMD_V2_SECTION_SEP ){
+				// first section in transmission started
+				ctrl_state = CMD_V2_SECTION_SEP;
+				ctrl_cur_bot_id = BOT_NONE;
+			}
+			else
+				ctrl_state = CMD_V2_RESERVED;
+			break;
+
+		default:
+
+			if( ctrl_state == CMD_V2_SECTION_SEP || ctrl_state == CMD_V2_SEPERATOR )
+				// recieved command after seperator
+				ctrl_state = cmd;
+			else if( ctrl_state == CMD_V2_ROBOT_ID ){
+				// recvied robot id value
+				ctrl_cur_bot_id = cmd;
+				ctrl_state = CTRL_STATE_REC_BOT_ID;
+			}
+			else if( ctrl_state == CTRL_STATE_REC_BOT_ID && (cmd == CMD_V2_SEPERATOR || cmd == CMD_V2_SECTION_SEP) )
+				// recieved command after seperator
+				ctrl_state = cmd;
+			else if( ctrl_state == CTRL_STATE_REC_VALUE && (cmd == CMD_V2_SEPERATOR || cmd == CMD_V2_SECTION_SEP) )
+				// recieved seperator after value
+				ctrl_state = cmd;
+			else if( ctrl_cur_bot_id != BOT_NONE ){
+				// got a value after command (with set bot id)
+
+				// check if command if for this bot or transmission ends
+				if( ctrl_cur_bot_id == BOT_ID || ctrl_state == CMD_V2_TRANS_END ){
+
+					// process command
+					uint8_t err = 0x00;
+					switch(ctrl_state){
+
+					case CMD_V2_LEFT_FWD:
+						ctrl_cmd_motorL = MOTOR_FORWARD;
+						ctrl_val_motorL = cmd;
+						ctrl_flag_motorL = TRUE;
+						led_on(LED_STATUS);
+						break;
+
+					case CMD_V2_LEFT_BWD:
+						ctrl_cmd_motorL = MOTOR_REVERSE;
+						ctrl_val_motorL = cmd;
+						ctrl_flag_motorL = TRUE;
+						break;
+
+					case CMD_V2_RIGHT_FWD:
+						ctrl_cmd_motorR = MOTOR_FORWARD;
+						ctrl_val_motorR = cmd;
+						ctrl_flag_motorR = TRUE;
+						break;
+
+					case CMD_V2_RIGHT_BWD:
+						ctrl_cmd_motorR = MOTOR_REVERSE;
+						ctrl_val_motorR = cmd;
+						ctrl_flag_motorR = TRUE;
+						break;
+
+					case CMD_V2_STOP:
+						ctrl_cmd_motorL = CMD_V2_STOP;
+						ctrl_cmd_motorR = CMD_V2_STOP;
+						ctrl_flag_motorL = TRUE;
+						ctrl_flag_motorR = TRUE;
+						break;
+
+					case CMD_V2_TRANS_END:
+						ctrl_state = CMD_V2_RESERVED;
+						ctrl_protocol_version = 0;
+						ctrl_cur_bot_id = BOT_NONE;
+						led_off(LED_STATUS);
+						err = 0x01;
+						break;
+
+					default:
+						// error no command found for value
+						err = 0xff;
+						break;
+					}
+
+					if( err == 0xff )
+						// reset state on error
+						ctrl_state = CMD_V2_RESERVED;
+					else if( !err )
+						// recieved value
+						ctrl_state = CTRL_STATE_REC_VALUE;
+
+				}
+				else
+					// skip value and command
+					ctrl_state = CTRL_STATE_REC_VALUE;
+
+
+			}
+			else{
+				ctrl_state = CMD_V2_RESERVED;
+			}
+
+			break;
+
+		}
+	}
+	else{
+		ctrl_state = CMD_V2_RESERVED;
+	}
+
+
 }

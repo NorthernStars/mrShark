@@ -25,15 +25,9 @@ void led_init(void){
 
 	LED_STAT_DDR |= (1<<LED_STAT);
 
-	COLOR_R_DDR |= (1<<COLOR_R);
-	COLOR_G_DDR |= (1<<COLOR_G);
-	COLOR_B_DDR |= (1<<COLOR_B);
-
-	// initate led color structures
-	led_color_N.led_number = LED_N;
-	led_color_O.led_number = LED_O;
-	led_color_S.led_number = LED_S;
-	led_color_W.led_number = LED_W;
+	LED_COLOR_R_DDR |= (1<<LED_COLOR_R);
+	LED_COLOR_G_DDR |= (1<<LED_COLOR_G);
+	LED_COLOR_B_DDR |= (1<<LED_COLOR_B);
 
 	// initalize led colors
 	led_all_off();
@@ -48,9 +42,10 @@ void led_init(void){
  */
 void led_init_timer(void){
 	TCCR0A |= (1<<WGM01);		// CTC-Mode
-	TCCR0B |= (1<<CS01);		// prescaler 8
+	TCCR0B |= (1<<CS00);		// prescaler 1
 	TIMSK0 |= (1<<OCIE0A);		// eable compare match A interrupt
-	OCR0A = 0x00;				// set compare match value
+	OCR0A = 0x6c;				// set compare match value to 108 (0x6c) > 100 Hz PWM
+	//OCR0A = 0x36;				// set compare match value to 54 (0x36) > 200 Hz PWM
 }
 
 /**
@@ -111,8 +106,27 @@ void led_all_off(void){
 /**
  * Sets a rgb color
  */
-void led_set_color(uint8_t r, uint8_t g, uint8_t b){
-
+void led_set_color(uint8_t r, uint8_t g, uint8_t b, uint8_t led){
+	if( led == LED_N ){
+		led_color_N.color_r = r;
+		led_color_N.color_g = g;
+		led_color_N.color_b = b;
+	}
+	else if( led == LED_O ){
+		led_color_O.color_r = r;
+		led_color_O.color_g = g;
+		led_color_O.color_b = b;
+	}
+	else if( led == LED_S ){
+		led_color_S.color_r = r;
+		led_color_S.color_g = g;
+		led_color_S.color_b = b;
+	}
+	else if( led == LED_W ){
+		led_color_W.color_r = r;
+		led_color_W.color_g = g;
+		led_color_W.color_b = b;
+	}
 }
 
 /**
@@ -120,11 +134,11 @@ void led_set_color(uint8_t r, uint8_t g, uint8_t b){
  */
 void led_set_allcolors(void){
 	led_color_N.color_r = led_color_O.color_r = led_color_S.color_r
-			= led_color_W.color_r = 0x00;
+			= led_color_W.color_r = 0xff;
 	led_color_N.color_g = led_color_O.color_g = led_color_S.color_g
-				= led_color_W.color_g = 0x01;
+				= led_color_W.color_g = 0xff;
 	led_color_N.color_b = led_color_O.color_b = led_color_S.color_b
-				= led_color_W.color_b = 0x00;
+				= led_color_W.color_b = 0xff;
 }
 
 /**
@@ -141,13 +155,64 @@ void led_set_nocolors(void){
  * Timer0 Compare Match Interrupt
  */
 ISR( TIMER0_COMPA_vect ){
-	static uint8_t pwm = 0x00;						// counting color value
+	static uint8_t pwm = 0x00;		// pwm counter
+	static uint8_t led = 0;			// led counter
+	struct led_color cur_led;		// current led
 
-	if(pwm < 0x80)
-		COLOR_G_PORT |= (1<<COLOR_G);
-	else
-		COLOR_G_PORT &= ~(1<<COLOR_G);
+	// reset leds
+	LED1_PORT &= ~(1<<LED1);
+	LED2_PORT &= ~(1<<LED2);
+	LED3_PORT &= ~(1<<LED3);
+	LED4_PORT &= ~(1<<LED4);
 
+	// enable led
+	if( led == 0 && led_color_N.led_on ){
+		LED1_PORT |= (1<<LED1);
+		cur_led = led_color_N;
+	}
+	else if( led == 1 && led_color_O.led_on ){
+		LED2_PORT |= (1<<LED2);
+		cur_led = led_color_O;
+	}
+	else if( led == 2 && led_color_S.led_on ){
+		LED3_PORT |= (1<<LED3);
+		cur_led = led_color_S;
+	}
+	else if( led == 3 && led_color_W.led_on ){
+		LED4_PORT |= (1<<LED4);
+		cur_led = led_color_W;
+	}
+
+	// set color pwm
+	if( cur_led.led_on ){
+		if(pwm < cur_led.color_r)
+			LED_COLOR_R_PORT |= (1<<LED_COLOR_R);
+		else
+			LED_COLOR_R_PORT &= ~(1<<LED_COLOR_R);
+
+		if(pwm < cur_led.color_g)
+			LED_COLOR_G_PORT |= (1<<LED_COLOR_G);
+		else
+			LED_COLOR_G_PORT &= ~(1<<LED_COLOR_G);
+
+		if(pwm < cur_led.color_b)
+			LED_COLOR_B_PORT |= (1<<LED_COLOR_B);
+		else
+			LED_COLOR_B_PORT &= ~(1<<LED_COLOR_B);
+	}
+	else{
+		LED_COLOR_R_PORT &= ~(1<<LED_COLOR_R);
+		LED_COLOR_G_PORT &= ~(1<<LED_COLOR_G);
+		LED_COLOR_B_PORT &= ~(1<<LED_COLOR_B);
+	}
+
+	//manage led counter
+	if( led > 3 )
+		led = 0;
+	if( !pwm )
+		led++;
+
+	// increase pwm counter
 	pwm++;
 }
 

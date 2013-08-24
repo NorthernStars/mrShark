@@ -22,7 +22,6 @@
 
 // -------- FUNCTIONS --------
 void uart_init(void);
-void uart_send_system_info(char *productName, char *productVersion, char *publisher);
 
 void uart_putc(unsigned char c);
 void uart_puts (char *s);
