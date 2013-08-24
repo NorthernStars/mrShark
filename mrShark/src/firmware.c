@@ -24,6 +24,7 @@ int main(void){
 					MOTOR_ADDR_L,
 					control_getMotorSpeed(MOTOR_ADDR_L),
 					control_getMotorCommand(MOTOR_ADDR_L));
+			led_all_off();
 		}
 
 		if( ctrl_flag_motorR ){
@@ -31,13 +32,14 @@ int main(void){
 					MOTOR_ADDR_R,
 					control_getMotorSpeed(MOTOR_ADDR_R),
 					control_getMotorCommand(MOTOR_ADDR_R));
+			led_all_off();
 		}
 
 		// check for changed robot id
 		if( ctrl_flag_id ){
 			uint8_t newID = control_getRobotID();
-			if( newID != myRobotID )
-				myRobotID = newID;
+			if( newID != sys_robotID )
+				sys_robotID = newID;
 		}
 
 	};

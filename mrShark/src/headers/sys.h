@@ -31,18 +31,13 @@
 #include "motor.h"
 #include "control.h"
 
-// -------- DEFINES --------
-#define TRUE	1
-#define FALSE	0
-#define true	1
-#define false	0
-
 /* 9600 baud */
 #define UART_BAUD_RATE		115200UL
 #define SUART_BAUD_RATE		9600UL
 
 // -------- VARIABLES --------
-extern uint8_t myRobotID;
+extern uint8_t sys_robotID;
+extern volatile uint8_t sys_showControlTraffic;
 
 // -------- FUNCTIONS --------
 void sys_init(void);

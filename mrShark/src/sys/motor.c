@@ -21,11 +21,11 @@ void motor_init(void){
  */
 void motor_test(void){
 	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_FORWARD);
-	motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_REVERSE);
+	motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
 	_delay_ms(1000);
 
 	motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_FORWARD);
-	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_REVERSE);
+	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
 	_delay_ms(1000);
 
 	motor_all_brake();

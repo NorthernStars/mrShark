@@ -64,7 +64,7 @@ uint8_t control_getMotorCommand(uint8_t motor){
 	else if( cmd == CMD_V2_LEFT_FWD || cmd == CMD_V2_RIGHT_FWD )
 		return MOTOR_FORWARD;
 	else
-		return MOTOR_REVERSE;
+		return MOTOR_BACKWARD;
 }
 
 /**
@@ -174,33 +174,34 @@ ISR(USART_RX_vect){
 				// got a value after command (with set bot id)
 
 				// check if command if for this bot or transmission ends
-				if( ctrl_cur_bot_id == BOT_ID || ctrl_state == CMD_V2_TRANS_END ){
+				if( ctrl_cur_bot_id == sys_robotID || ctrl_state == CMD_V2_TRANS_END ){
+					if( sys_showControlTraffic )
+						led_on(LED_STATUS);
 
 					// process command
 					uint8_t err = 0x00;
 					switch(ctrl_state){
 
 					case CMD_V2_LEFT_FWD:
-						ctrl_cmd_motorL = MOTOR_FORWARD;
+						ctrl_cmd_motorL = CMD_V2_LEFT_FWD;
 						ctrl_val_motorL = cmd;
 						ctrl_flag_motorL = TRUE;
-						led_on(LED_STATUS);
 						break;
 
 					case CMD_V2_LEFT_BWD:
-						ctrl_cmd_motorL = MOTOR_REVERSE;
+						ctrl_cmd_motorL = CMD_V2_LEFT_BWD;
 						ctrl_val_motorL = cmd;
 						ctrl_flag_motorL = TRUE;
 						break;
 
 					case CMD_V2_RIGHT_FWD:
-						ctrl_cmd_motorR = MOTOR_FORWARD;
+						ctrl_cmd_motorR = CMD_V2_RIGHT_FWD;
 						ctrl_val_motorR = cmd;
 						ctrl_flag_motorR = TRUE;
 						break;
 
 					case CMD_V2_RIGHT_BWD:
-						ctrl_cmd_motorR = MOTOR_REVERSE;
+						ctrl_cmd_motorR = CMD_V2_RIGHT_BWD;
 						ctrl_val_motorR = cmd;
 						ctrl_flag_motorR = TRUE;
 						break;
@@ -217,15 +218,17 @@ ISR(USART_RX_vect){
 						break;
 
 					case CMD_V2_LEDS_OFF:
-						led_all_on();
+						led_all_off();
 						break;
 
 					case CMD_V2_LED_STAT_ON:
 						led_on(LED_STATUS);
+						sys_showControlTraffic = FALSE;
 						break;
 
 					case CMD_V2_LED_STAT_OFF:
 						led_off(LED_STATUS);
+						sys_showControlTraffic = CFG_SHOW_CONTROL_TRAFFIC;
 						break;
 
 					case CMD_V2_LED1_RED:
@@ -284,15 +287,17 @@ ISR(USART_RX_vect){
 						led_off(cmd);
 						break;
 
-					case CMD_V2_ROBOT_ID:
+					case CMD_V2_SET_ID:
 						ctrl_val_id = cmd;
 						ctrl_flag_id = TRUE;
+						break;
 
 					case CMD_V2_TRANS_END:
 						ctrl_state = CMD_V2_RESERVED;
 						ctrl_protocol_version = 0;
 						ctrl_cur_bot_id = BOT_NONE;
-						led_off(LED_STATUS);
+						if( sys_showControlTraffic )
+							led_off(LED_STATUS);
 						err = 0x01;
 						break;
 

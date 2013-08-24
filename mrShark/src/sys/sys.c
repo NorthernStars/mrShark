@@ -8,7 +8,8 @@
 #include "../headers/sys.h"
 
 // -------- VARIABLES --------
-uint8_t myRobotID = BOT_ID;
+uint8_t sys_robotID = CFG_BOT_ID;
+volatile uint8_t sys_showControlTraffic = CFG_SHOW_CONTROL_TRAFFIC;
 
 /**
  * Initiates the complete system
