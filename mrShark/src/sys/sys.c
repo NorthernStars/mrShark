@@ -7,6 +7,9 @@
 
 #include "../headers/sys.h"
 
+// -------- VARIABLES --------
+uint8_t myRobotID = BOT_ID;
+
 /**
  * Initiates the complete system
  */

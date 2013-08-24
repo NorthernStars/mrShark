@@ -18,20 +18,28 @@ int main(void){
 	// main loop
 	while(1){
 
-		uint8_t motor_cmd;
-		uint8_t motor_speed;
-
 		// check for changed motor values
 		if( ctrl_flag_motorL ){
-			motor_cmd = control_getMotorCommand(MOTOR_ADDR_L);
-			motor_speed = control_getMotorSpeed(MOTOR_ADDR_L);
-			motor_set_speed(MOTOR_ADDR_L, motor_speed, motor_cmd);
+			motor_set_speed(
+					MOTOR_ADDR_L,
+					control_getMotorSpeed(MOTOR_ADDR_L),
+					control_getMotorCommand(MOTOR_ADDR_L));
 		}
+
 		if( ctrl_flag_motorR ){
-			motor_cmd = control_getMotorCommand(MOTOR_ADDR_R);
-			motor_speed = control_getMotorSpeed(MOTOR_ADDR_R);
-			motor_set_speed(MOTOR_ADDR_R, motor_speed, motor_cmd);
+			motor_set_speed(
+					MOTOR_ADDR_R,
+					control_getMotorSpeed(MOTOR_ADDR_R),
+					control_getMotorCommand(MOTOR_ADDR_R));
 		}
+
+		// check for changed robot id
+		if( ctrl_flag_id ){
+			uint8_t newID = control_getRobotID();
+			if( newID != myRobotID )
+				myRobotID = newID;
+		}
+
 	};
 
 }

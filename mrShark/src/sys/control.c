@@ -82,6 +82,14 @@ uint8_t control_getMotorSpeed(uint8_t motor){
 }
 
 /**
+ * Returns the robot id to set and resets flag
+ */
+uint8_t control_getRobotID(){
+	ctrl_flag_id = FALSE;
+	return ctrl_val_id;
+}
+
+/**
  * Gets recieved cmd from uart
  */
 uint8_t control_getCmd(void){
@@ -203,6 +211,82 @@ ISR(USART_RX_vect){
 						ctrl_flag_motorL = TRUE;
 						ctrl_flag_motorR = TRUE;
 						break;
+
+					case CMD_V2_LEDS_ON:
+						led_all_on();
+						break;
+
+					case CMD_V2_LEDS_OFF:
+						led_all_on();
+						break;
+
+					case CMD_V2_LED_STAT_ON:
+						led_on(LED_STATUS);
+						break;
+
+					case CMD_V2_LED_STAT_OFF:
+						led_off(LED_STATUS);
+						break;
+
+					case CMD_V2_LED1_RED:
+						led_set_color_red(cmd, LED_N);
+						break;
+
+					case CMD_V2_LED1_GREEN:
+						led_set_color_green(cmd, LED_N);
+						break;
+
+					case CMD_V2_LED1_BLUE:
+						led_set_color_blue(cmd, LED_N);
+						break;
+
+					case CMD_V2_LED2_RED:
+						led_set_color_red(cmd, LED_O);
+						break;
+
+					case CMD_V2_LED2_GREEN:
+						led_set_color_green(cmd, LED_O);
+						break;
+
+					case CMD_V2_LED2_BLUE:
+						led_set_color_blue(cmd, LED_O);
+						break;
+
+					case CMD_V2_LED3_RED:
+						led_set_color_red(cmd, LED_S);
+						break;
+
+					case CMD_V2_LED3_GREEN:
+						led_set_color_green(cmd, LED_S);
+						break;
+
+					case CMD_V2_LED3_BLUE:
+						led_set_color_blue(cmd, LED_S);
+						break;
+
+					case CMD_V2_LED4_RED:
+						led_set_color_red(cmd, LED_W);
+						break;
+
+					case CMD_V2_LED4_GREEN:
+						led_set_color_green(cmd, LED_W);
+						break;
+
+					case CMD_V2_LED4_BLUE:
+						led_set_color_blue(cmd, LED_W);
+						break;
+
+					case CMD_V2_LED_ON:
+						led_on(cmd);
+						break;
+
+					case CMD_V2_LED_OFF:
+						led_off(cmd);
+						break;
+
+					case CMD_V2_ROBOT_ID:
+						ctrl_val_id = cmd;
+						ctrl_flag_id = TRUE;
 
 					case CMD_V2_TRANS_END:
 						ctrl_state = CMD_V2_RESERVED;

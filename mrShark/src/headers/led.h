@@ -65,11 +65,18 @@ extern volatile struct led_color led_color_W;
 // -------- FUNCTIONS --------
 void led_init(void);
 void led_init_timer(void);
+
 void led_on(uint8_t led);
 void led_off(uint8_t led);
+
 void led_all_on(void);
 void led_all_off(void);
-void led_set_color(uint8_t r, uint8_t g, uint8_t b, uint8_t led);
+
+void led_set_colors(uint8_t r, uint8_t g, uint8_t b, uint8_t led);
+void led_set_color_red(uint8_t r, uint8_t led);
+void led_set_color_green(uint8_t g, uint8_t led);
+void led_set_color_blue(uint8_t b, uint8_t led);
+
 void led_set_allcolors(void);
 void led_set_nocolors(void);
 

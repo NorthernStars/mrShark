@@ -106,7 +106,7 @@ void led_all_off(void){
 /**
  * Sets a rgb color
  */
-void led_set_color(uint8_t r, uint8_t g, uint8_t b, uint8_t led){
+void led_set_colors(uint8_t r, uint8_t g, uint8_t b, uint8_t led){
 	if( led == LED_N ){
 		led_color_N.color_r = r;
 		led_color_N.color_g = g;
@@ -127,6 +127,48 @@ void led_set_color(uint8_t r, uint8_t g, uint8_t b, uint8_t led){
 		led_color_W.color_g = g;
 		led_color_W.color_b = b;
 	}
+}
+
+/**
+ * Sets the red color of a led
+ */
+void led_set_color_red(uint8_t r, uint8_t led){
+	if( led == LED_N )
+		led_color_N.color_r = r;
+	else if( led == LED_O )
+		led_color_O.color_r = r;
+	else if( led == LED_S )
+		led_color_S.color_r = r;
+	else if( led == LED_W )
+		led_color_W.color_r = r;
+}
+
+/**
+ * Sets the green color of a led
+ */
+void led_set_color_green(uint8_t g, uint8_t led){
+	if( led == LED_N )
+		led_color_N.color_g = g;
+	else if( led == LED_O )
+		led_color_O.color_g = g;
+	else if( led == LED_S )
+		led_color_S.color_g = g;
+	else if( led == LED_W )
+		led_color_W.color_g = g;
+}
+
+/**
+ * Sets the blue color of a led
+ */
+void led_set_color_blue(uint8_t b, uint8_t led){
+	if( led == LED_N )
+		led_color_N.color_b = b;
+	else if( led == LED_O )
+		led_color_O.color_b = b;
+	else if( led == LED_S )
+		led_color_S.color_b = b;
+	else if( led == LED_W )
+		led_color_W.color_b = b;
 }
 
 /**

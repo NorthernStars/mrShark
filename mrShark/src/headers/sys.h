@@ -41,6 +41,9 @@
 #define UART_BAUD_RATE		115200UL
 #define SUART_BAUD_RATE		9600UL
 
+// -------- VARIABLES --------
+extern uint8_t myRobotID;
+
 // -------- FUNCTIONS --------
 void sys_init(void);
 
