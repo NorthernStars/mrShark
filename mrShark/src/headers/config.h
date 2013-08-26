@@ -21,6 +21,8 @@
 // -------- CONFIGURATION --------
 #define CFG_BOT_ID	0
 #define CFG_SHOW_CONTROL_TRAFFIC	TRUE
+#define CFG_SUART_TX						// uncomment to enable software uart tx
+#define CFG_SUART_RX						// uncomment to enable software uart rx
 
 
 // -------- CONFIGURATION END --------

@@ -33,7 +33,7 @@ void led_init(void){
 	led_all_off();
 	led_set_nocolors();
 
-	// initalize timer
+	// initalize timer 0
 	led_init_timer();
 }
 

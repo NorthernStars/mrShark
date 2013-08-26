@@ -21,6 +21,7 @@ void sys_init(void){
 	led_init();
 	motor_init();
 	control_init();
+	suart_init();
 
 	sei();
 

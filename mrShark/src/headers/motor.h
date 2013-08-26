@@ -13,7 +13,7 @@
 #define MOTOR_ADDR_R		0xC4
 
 #define MOTOR_REG_CONTROL	0x00
-#define MOTOR_REG_FAULT	0x01
+#define MOTOR_REG_FAULT		0x01
 
 #define MOTOR_STANDBY		0x00
 #define MOTOR_FORWARD		0x01

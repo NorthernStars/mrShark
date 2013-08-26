@@ -13,7 +13,7 @@
 void motor_init(void){
 
 	// test if motor drivers are available
-	motor_test();
+	//motor_test();
 }
 
 /**
@@ -36,7 +36,7 @@ void motor_test(void){
  */
 void motor_set_speed(uint8_t address, uint8_t speed, uint8_t direction){
 
-	if(speed > 0x05 && speed <= 0x3f){
+	if(speed >= MOTOR_SPEED_MIN && speed <= MOTOR_SPEED_MAX){
 		i2c_start_wait( address + I2C_WRITE );
 		i2c_write( MOTOR_REG_CONTROL );
 		i2c_write( (speed<<2) | direction );

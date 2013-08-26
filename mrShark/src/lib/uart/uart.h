@@ -9,15 +9,15 @@
 #define UART_H
 
 // -------- DEFINES --------
-#define BAUD 115200UL      // Baudrate
+#define UART_BAUD 115200UL      // Baudrate
 
 // Berechnungen
-#define UBRR_VAL ((F_CPU+BAUD*8)/(BAUD*16)-1)  // round clever
-#define BAUD_REAL (F_CPU/(16*(UBRR_VAL+1)))    // real baudrate
-#define BAUD_ERROR ((BAUD_REAL*1000)/BAUD) 		// error in ppm, 1000 = no error
+#define UART_UBRR_VAL ((F_CPU+UART_BAUD*8)/(UART_BAUD*16)-1)  	// round clever
+#define UART_BAUD_REAL (F_CPU/(16*(UART_UBRR_VAL+1)))    		// real baudrate
+#define UART_BAUD_ERROR ((UART_BAUD_REAL*1000)/UART_BAUD) 		// error in ppm, 1000 = no error
 
-#if ((BAUD_ERROR<990) || (BAUD_ERROR>1010))
-  #error Baudrate error > 1%
+#if ((UART_BAUD_ERROR<990) || (UART_BAUD_ERROR>1010))
+  #error UART Baudrate error > 1%
 #endif
 
 // -------- FUNCTIONS --------

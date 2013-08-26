@@ -12,8 +12,8 @@
  */
 void uart_init(void)
 {
-    UBRR0H = UBRR_VAL >> 8;					// set baudrate
-    UBRR0L = UBRR_VAL & 0xFF;
+    UBRR0H = UART_UBRR_VAL >> 8;			// set baudrate
+    UBRR0L = UART_UBRR_VAL & 0xFF;
 
     UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);  		// asynchron 8N1
     UCSR0B |= (1<<RXEN0) | (1<<TXEN0);      // enable rx and tx
