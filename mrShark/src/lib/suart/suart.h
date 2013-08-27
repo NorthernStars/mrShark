@@ -13,7 +13,7 @@
 #ifdef SUART_H
 
 // -------- DEFINES --------
-#define SUART_BAUD 		600UL      	// Baudrate
+#define SUART_BAUD 		1200UL      	// Baudrate
 
 #define SUART_RX_DDR	DDRC
 #define SUART_RX_PIN	PINC
@@ -23,9 +23,8 @@
 #define SUART_TX_PORT	PORTC
 #define SUART_TX		PC1
 
-#define SUART_THRESHOLD		20			// Threshold for rx level in %
-#define SUART_OVERSAMPLING	16			// oversampling factor
-#define SUART_BUFF_SIZE		30			// size of suart fifo buffer
+#define SUART_THRESHOLD		50			// Threshold for rx level in %
+#define SUART_OVERSAMPLING	8			// oversampling factor
 
 
 // Calculation
@@ -47,13 +46,11 @@
 
 // -------- VARIABLES --------
 #ifdef CFG_SUART_RX
-extern uint8_t rxDataBuffer[];
 extern uint8_t rxData;
 extern uint8_t rxFlag;
 #endif
 
 #ifdef CFG_SUART_TX
-extern uint8_t txDataBuffer[];
 extern uint8_t txData;
 extern uint8_t txFlag;
 #endif

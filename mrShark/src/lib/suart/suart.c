@@ -12,13 +12,11 @@
 #include "../../headers/sys.h"
 
 #ifdef CFG_SUART_RX
-uint8_t rxDataBuffer[SUART_BUFF_SIZE];;
 uint8_t rxData = 0x00;
 uint8_t rxFlag = FALSE;
 #endif
 
 #ifdef CFG_SUART_RX
-uint8_t txDataBuffer[SUART_BUFF_SIZE];
 uint8_t txData = 0x00;
 uint8_t txFlag = FALSE;
 #endif

@@ -34,7 +34,7 @@
 
 /* 9600 baud */
 #define UART_BAUD_RATE		115200UL
-#define SUART_BAUD_RATE		9600UL
+#define SUART_BAUD_RATE		4800UL
 
 // -------- VARIABLES --------
 extern uint8_t sys_robotID;
