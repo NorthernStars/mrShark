@@ -13,7 +13,7 @@
 #define SYS_H_
 // -------- SYS_INFO --------
 #define SYS_NAME		"mrShark"
-#define SYS_VERSION		"0.8"
+#define SYS_VERSION		"v1.0"
 #define SYS_PUBLISHER	"NorthernStars"
 
 

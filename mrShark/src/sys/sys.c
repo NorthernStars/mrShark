@@ -25,4 +25,10 @@ void sys_init(void){
 
 	sei();
 
+	// send system information
+	suart_puts( SYS_NAME );
+	_delay_ms(100);
+	suart_puts( SYS_VERSION	);
+	suart_puts( SYS_PUBLISHER );
+
 }

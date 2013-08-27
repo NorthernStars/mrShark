@@ -197,9 +197,9 @@ void led_set_nocolors(void){
  * Timer0 Compare Match Interrupt
  */
 ISR( TIMER0_COMPA_vect ){
-	static uint8_t pwm = 0x00;		// pwm counter
-	static uint8_t led = 0;			// led counter
-	struct led_color cur_led;		// current led
+	static uint8_t pwm = 0x00;			// pwm counter
+	static uint8_t led = 0;				// led counter
+	struct led_color cur_led = led_color_N;	// current led
 
 	// reset leds
 	LED1_PORT &= ~(1<<LED1);

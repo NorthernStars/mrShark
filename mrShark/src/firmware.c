@@ -13,8 +13,6 @@ int main(void){
 	// initiate system
 	sys_init();
 
-	led_all_on();
-
 	// main loop
 	while(1){
 
@@ -41,11 +39,6 @@ int main(void){
 			if( newID != sys_robotID )
 				sys_robotID = newID;
 		}
-
-		if( !fifo_getCount(&txData) )
-			suart_putc(0x55);
-
-		_delay_ms(10);
 
 	};
 
