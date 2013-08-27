@@ -27,8 +27,9 @@ void sys_init(void){
 
 	// send system information
 	suart_puts( SYS_NAME );
-	_delay_ms(100);
+	suart_puts( " " );
 	suart_puts( SYS_VERSION	);
+	suart_puts( "\r\n" );
 	suart_puts( SYS_PUBLISHER );
 
 }

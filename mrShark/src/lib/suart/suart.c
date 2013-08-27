@@ -13,12 +13,14 @@
 
 #ifdef CFG_SUART_RX
 uint8_t rxDataBuffer[SUART_BUFF_SIZE];;
-fifo_t rxData;
+uint8_t rxData = 0x00;
+uint8_t rxFlag = FALSE;
 #endif
 
 #ifdef CFG_SUART_RX
 uint8_t txDataBuffer[SUART_BUFF_SIZE];
-fifo_t txData;
+uint8_t txData = 0x00;
+uint8_t txFlag = FALSE;
 #endif
 
 /**
@@ -29,14 +31,11 @@ void suart_init(void){
 	// Set IOs and fifo buffer
 #ifdef CFG_SUART_RX
 	SUART_RX_DDR &= ~(1<<SUART_RX);
-    fifo_init (&rxData, rxDataBuffer, SUART_BUFF_SIZE);
 #endif
 
 #ifdef CFG_SUART_TX
     SUART_TX_DDR |= (1<<SUART_TX);
     SUART_TX_PORT |= (1<<SUART_TX);
-	fifo_init(&txData, txDataBuffer, SUART_BUFF_SIZE);
-	fifo_put(&txData, 0x00);
 #endif
 
 	// Enable timer
@@ -53,31 +52,44 @@ void suart_init(void){
  * Blocking call!
  */
 uint8_t suart_getc(void){
-	return fifo_get_wait(&rxData);
+	while(!rxFlag);
+	rxFlag = FALSE;
+	return rxData;
 }
 
 /**
  * Gets a recieved uart byte
- * or -1 if nothing recieved
+ * or 0x00 if nothing recieved
  */
 uint8_t suart_read(void){
-	return fifo_get_nowait(&rxData);
+	if(rxFlag){
+		rxFlag = FALSE;
+		return rxData;
+	}
+	return 0x00;
 }
 #endif /* CFG_SUART_RX */
 
 #ifdef CFG_SUART_TX
 /**
  * Send a byte
+ * non-blocking call
  */
 void suart_putc(char data){
-	fifo_put(&txData, data);
+	if(!txFlag){
+		txData = data;
+		txFlag = TRUE;
+	}
 }
 
 /**
  * Sends a string
+ * blocking call
  */
 void suart_puts(char *s){
-	while(s){
+	while(*s){
+		while(txFlag)
+			_delay_us(1);
 		suart_putc(*s);
 		s++;
 	}
@@ -99,7 +111,6 @@ ISR(TIMER1_COMPA_vect){
 
 	uint8_t rx = (SUART_RX_PIN & (1<<SUART_RX)) >> SUART_RX;
 	rxLevelCounter += rx;
-	led_off(LED_STATUS);
 
 
 	// START DETECTED
@@ -109,6 +120,7 @@ ISR(TIMER1_COMPA_vect){
 		rxSampleCounter = 0x00;
 		rxDataCounter = 0x00;
 		rxDataTmp = 0x00;
+		rxFlag = FALSE;
 
 	}
 	// START BIT
@@ -133,18 +145,17 @@ ISR(TIMER1_COMPA_vect){
 	else if( rxState == SUART_STATE_DATA ){
 		if( rxSampleCounter == SUART_OVERSAMPLING - 1 ){
 			led_on(LED_STATUS);
-			if( rxLevelCounter > SUART_TH ){
+			if( rxLevelCounter > SUART_TH )
 				// add bit to data
 				rxDataTmp += (1<<rxDataCounter);
-			}
 
 			rxDataCounter++;
 			rxSampleCounter = 0x00;
 			rxLevelCounter = 0x00;
 		}
-		else{
+		else
 			rxSampleCounter++;
-		}
+
 
 		if( rxDataCounter == 8 )
 			// collected all data bits
@@ -154,7 +165,8 @@ ISR(TIMER1_COMPA_vect){
 	else if( rxState == SUART_STATE_STOP ){
 		if( rxSampleCounter ==  (SUART_OVERSAMPLING - 1)*2 ){
 			if( rxLevelCounter > SUART_TH ){
-				fifo_put(&rxData, rxDataTmp);
+				rxData = rxDataTmp;
+				rxFlag = TRUE;
 			}
 
 			rxState = SUART_STATE_IDLE;
@@ -172,11 +184,11 @@ ISR(TIMER1_COMPA_vect){
 	static uint8_t txDataTmp = 0x00;
 
 	// START DETECTED
-	if( txState == SUART_STATE_IDLE && fifo_getCount(&txData) ){
+	if( txState == SUART_STATE_IDLE && txFlag ){
 		txState = SUART_STATE_START;
 		txSampleCounter = 0x00;
-		led_off(LED_STATUS);
-		txDataTmp = fifo_get_nowait(&txData);
+		txDataTmp = txData;
+		txFlag = FALSE;
 	}
 	// START BIT
 	else if( txState == SUART_STATE_START ){
@@ -203,10 +215,8 @@ ISR(TIMER1_COMPA_vect){
 		}
 		else{
 			if(txDataCounter < 7 ){
-
 				txSampleCounter = 0x00;
-				txDataCounter++;
-			}
+				txDataCounter++;			}
 			else
 				txState = SUART_STATE_STOP;
 
@@ -218,10 +228,8 @@ ISR(TIMER1_COMPA_vect){
 			SUART_TX_PORT |= (1<<SUART_TX);
 			txSampleCounter++;
 		}
-		else{
+		else
 			txState = SUART_STATE_IDLE;
-			led_on(LED_STATUS);
-		}
 	}
 	else
 		SUART_TX_PORT |= (1<<SUART_TX);

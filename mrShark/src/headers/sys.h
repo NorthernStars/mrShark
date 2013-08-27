@@ -25,7 +25,6 @@
 #include <avr/interrupt.h>
 
 #include "config.h"
-#include "../lib/fifo/fifo.h"
 #include "../lib/i2c/i2cmaster.h"
 #include "../lib/uart/uart.h"
 #include "../lib/suart/suart.h"

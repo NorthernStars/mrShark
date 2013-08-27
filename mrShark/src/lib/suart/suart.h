@@ -48,12 +48,14 @@
 // -------- VARIABLES --------
 #ifdef CFG_SUART_RX
 extern uint8_t rxDataBuffer[];
-extern fifo_t rxData;
+extern uint8_t rxData;
+extern uint8_t rxFlag;
 #endif
 
 #ifdef CFG_SUART_TX
 extern uint8_t txDataBuffer[];
-extern fifo_t txData;
+extern uint8_t txData;
+extern uint8_t txFlag;
 #endif
 
 
