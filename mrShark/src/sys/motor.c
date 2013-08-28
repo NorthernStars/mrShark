@@ -13,7 +13,7 @@
 void motor_init(void){
 
 	// test if motor drivers are available
-	//motor_test();
+	motor_test();
 }
 
 /**

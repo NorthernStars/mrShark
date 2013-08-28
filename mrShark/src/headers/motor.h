@@ -22,7 +22,7 @@
 
 #define MOTOR_SPEED_MIN		0x06
 #define MOTOR_SPEED_MAX		0x29
-#define MOTOR_SPEED_HALF	0x1f
+#define MOTOR_SPEED_HALF	0x18
 
 // -------- VARIABLES --------
 
