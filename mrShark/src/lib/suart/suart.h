@@ -13,7 +13,7 @@
 #ifdef SUART_H
 
 // -------- DEFINES --------
-#define SUART_BAUD 		1200UL      	// Baudrate
+#define SUART_BAUD 		300UL      	// Baudrate
 
 #define SUART_RX_DDR	DDRC
 #define SUART_RX_PIN	PINC
@@ -66,6 +66,7 @@ uint8_t suart_read(void);
 
 #ifdef CFG_SUART_TX
 void suart_putc(char data);
+void suart_putc_wait(char data);
 void suart_puts(char *s);
 #endif
 

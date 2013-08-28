@@ -44,8 +44,9 @@ void led_init_timer(void){
 	TCCR0A |= (1<<WGM01);		// CTC-Mode
 	TCCR0B |= (1<<CS00);		// prescaler 1
 	TIMSK0 |= (1<<OCIE0A);		// eable compare match A interrupt
-	OCR0A = 0x6c;				// set compare match value to 108 (0x6c) > 100 Hz PWM
+	//OCR0A = 0x6c;				// set compare match value to 108 (0x6c) > 100 Hz PWM
 	//OCR0A = 0x36;				// set compare match value to 54 (0x36) > 200 Hz PWM
+	OCR0A= 0xd8;				// set comapre match value to 216 (0xd8) > 50 Hz PWM
 }
 
 /**
@@ -53,15 +54,15 @@ void led_init_timer(void){
  * Use defined LEDx for setting led number
  */
 void led_on(uint8_t led){
-	if( led == LED_N )
+	if( led & LED_N )
 		led_color_N.led_on = 0xff;
-	else if( led == LED_O )
+	if( led & LED_O )
 		led_color_O.led_on = 0xff;
-	else if( led == LED_S )
+	if( led & LED_S )
 		led_color_S.led_on = 0xff;
-	else if( led == LED_W )
+	if( led & LED_W )
 		led_color_W.led_on = 0xff;
-	else if( led == LED_STATUS )
+	if( led & LED_STATUS )
 		LED_STAT_PORT |= (1<<LED_STAT);
 }
 
@@ -70,15 +71,15 @@ void led_on(uint8_t led){
  * Use defined LEDx for setting led number
  */
 void led_off(uint8_t led){
-	if( led == LED_N )
+	if( led & LED_N )
 		led_color_N.led_on = 0x00;
-	else if( led == LED_O )
+	if( led & LED_O )
 		led_color_O.led_on = 0x00;
-	else if( led == LED_S )
+	if( led & LED_S )
 		led_color_S.led_on = 0x00;
-	else if( led == LED_W )
+	if( led & LED_W )
 		led_color_W.led_on = 0x00;
-	else if( led == LED_STATUS )
+	if( led & LED_STATUS )
 		LED_STAT_PORT &= ~(1<<LED_STAT);
 
 }
@@ -107,22 +108,22 @@ void led_all_off(void){
  * Sets a rgb color
  */
 void led_set_colors(uint8_t r, uint8_t g, uint8_t b, uint8_t led){
-	if( led == LED_N ){
+	if( led & LED_N ){
 		led_color_N.color_r = r;
 		led_color_N.color_g = g;
 		led_color_N.color_b = b;
 	}
-	else if( led == LED_O ){
+	if( led & LED_O ){
 		led_color_O.color_r = r;
 		led_color_O.color_g = g;
 		led_color_O.color_b = b;
 	}
-	else if( led == LED_S ){
+	if( led & LED_S ){
 		led_color_S.color_r = r;
 		led_color_S.color_g = g;
 		led_color_S.color_b = b;
 	}
-	else if( led == LED_W ){
+	if( led & LED_W ){
 		led_color_W.color_r = r;
 		led_color_W.color_g = g;
 		led_color_W.color_b = b;
@@ -133,13 +134,13 @@ void led_set_colors(uint8_t r, uint8_t g, uint8_t b, uint8_t led){
  * Sets the red color of a led
  */
 void led_set_color_red(uint8_t r, uint8_t led){
-	if( led == LED_N )
+	if( led & LED_N )
 		led_color_N.color_r = r;
-	else if( led == LED_O )
+	if( led & LED_O )
 		led_color_O.color_r = r;
-	else if( led == LED_S )
+	if( led & LED_S )
 		led_color_S.color_r = r;
-	else if( led == LED_W )
+	if( led & LED_W )
 		led_color_W.color_r = r;
 }
 
@@ -147,13 +148,13 @@ void led_set_color_red(uint8_t r, uint8_t led){
  * Sets the green color of a led
  */
 void led_set_color_green(uint8_t g, uint8_t led){
-	if( led == LED_N )
+	if( led & LED_N )
 		led_color_N.color_g = g;
-	else if( led == LED_O )
+	if( led & LED_O )
 		led_color_O.color_g = g;
-	else if( led == LED_S )
+	if( led & LED_S )
 		led_color_S.color_g = g;
-	else if( led == LED_W )
+	if( led & LED_W )
 		led_color_W.color_g = g;
 }
 
@@ -161,13 +162,13 @@ void led_set_color_green(uint8_t g, uint8_t led){
  * Sets the blue color of a led
  */
 void led_set_color_blue(uint8_t b, uint8_t led){
-	if( led == LED_N )
+	if( led & LED_N )
 		led_color_N.color_b = b;
-	else if( led == LED_O )
+	if( led & LED_O )
 		led_color_O.color_b = b;
-	else if( led == LED_S )
+	if( led & LED_S )
 		led_color_S.color_b = b;
-	else if( led == LED_W )
+	if( led & LED_W )
 		led_color_W.color_b = b;
 }
 

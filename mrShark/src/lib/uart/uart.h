@@ -5,6 +5,10 @@
  *      Author: hannes
  */
 
+#ifndef F_CPU
+#define F_CPU		11059200UL
+#endif
+
 #ifndef UART_H
 #define UART_H
 

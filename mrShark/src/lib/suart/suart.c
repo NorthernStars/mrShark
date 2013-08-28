@@ -16,7 +16,7 @@ uint8_t rxData = 0x00;
 uint8_t rxFlag = FALSE;
 #endif
 
-#ifdef CFG_SUART_RX
+#ifdef CFG_SUART_TX
 uint8_t txData = 0x00;
 uint8_t txFlag = FALSE;
 #endif
@@ -36,11 +36,13 @@ void suart_init(void){
     SUART_TX_PORT |= (1<<SUART_TX);
 #endif
 
+#ifdef CFG_SUART_RX
 	// Enable timer
 	TCCR1B |= (1<<WGM12) | (1<<CS10);	// ctc mode, no prescaler
 	OCR1AH = SUART_COMP_VAL >> 8;		// set compare match value for baudrate
 	OCR1AL = SUART_COMP_VAL & 0xFF;
 	TIMSK1 |= (1<<OCIE1A);				// enable compare match interrupt
+#endif
 
 }
 
@@ -78,6 +80,16 @@ void suart_putc(char data){
 		txData = data;
 		txFlag = TRUE;
 	}
+}
+
+/**
+ * Sends a byte
+ * blocking call
+ */
+void suart_putc_wait(char data){
+	while(txFlag)
+		_delay_us(1);
+	suart_putc(data);
 }
 
 /**
@@ -142,7 +154,6 @@ ISR(TIMER1_COMPA_vect){
 	// RECIEVING DATA BITS
 	else if( rxState == SUART_STATE_DATA ){
 		if( rxSampleCounter == SUART_OVERSAMPLING - 1 ){
-			led_on(LED_STATUS);
 			if( rxLevelCounter > SUART_TH )
 				// add bit to data
 				rxDataTmp += (1<<rxDataCounter);

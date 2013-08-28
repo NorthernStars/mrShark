@@ -33,9 +33,9 @@
 
 #define LED_N		1		// LED1
 #define LED_O		2		// LED2
-#define LED_S		3		// LED3
-#define LED_W		4		// LED4
-#define LED_STATUS	5		// LED_STATUS
+#define LED_S		4		// LED3
+#define LED_W		8		// LED4
+#define LED_STATUS	16		// LED_STATUS
 
 #define LED_COLOR_R_DDR		DDRD
 #define LED_COLOR_R_PORT	PORTD

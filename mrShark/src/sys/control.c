@@ -37,9 +37,6 @@ void control_init(void){
 	// enable uart interrupt
 	UCSR0B |= (1<<RXCIE0);
 
-	// send system information
-	control_send_system_info(SYS_NAME, SYS_VERSION, SYS_PUBLISHER);
-
 }
 
 /**
@@ -100,11 +97,15 @@ uint8_t control_getCmd(void){
  * Sends status information via uart
  */
 void control_send_system_info(char *productName, char *productVersion, char *publisher){
-	uart_puts(publisher);
-	uart_puts(": ");
-	uart_puts(productName);
-	uart_puts(" ver. ");
-	uart_puts(productVersion);
+#ifdef CFG_SUART_TX
+	suart_puts(publisher);
+	suart_puts("\r\n");
+	suart_puts(productName);
+	suart_puts(" ver. ");
+	suart_puts(productVersion);
+	suart_puts("\r\nid:");
+	suart_putc_wait( CFG_BOT_ID );
+#endif /* CFG_SUART_TX */
 }
 
 /**

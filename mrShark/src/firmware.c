@@ -38,9 +38,6 @@ int main(void){
 				sys_robotID = newID;
 		}
 
-		suart_putc(0x4d);
-		_delay_ms(10);
-
 	};
 
 }
