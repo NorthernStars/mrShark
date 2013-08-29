@@ -32,11 +32,8 @@ int main(void){
 		}
 
 		// check for changed robot id
-		if( ctrl_flag_id ){
-			uint8_t newID = control_getRobotID();
-			if( newID != sys_robotID )
-				sys_robotID = newID;
-		}
+		if( ctrl_flag_id )
+			sys_ee_set_robotID( control_getRobotID() );
 
 		// process debugging module
 		debug_process();

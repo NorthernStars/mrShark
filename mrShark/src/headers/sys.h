@@ -23,6 +23,7 @@
 #include <inttypes.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <avr/eeprom.h>
 
 #include "config.h"
 #include "../lib/i2c/i2cmaster.h"
@@ -41,8 +42,14 @@
 extern uint8_t sys_robotID;
 extern volatile uint8_t sys_showControlTraffic;
 
+// -------- EEPROM DATA --------
+#define EEPROM_DEF 0xFF
+extern uint8_t  sys_ee_robotID EEMEM;
+
 // -------- FUNCTIONS --------
 void sys_init(void);
+uint8_t sys_ee_read_robotID(void);
+void sys_ee_set_robotID(uint8_t robotID);
 
 
 #endif /* SYS_H_ */
