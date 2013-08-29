@@ -160,7 +160,7 @@ ISR(USART_RX_vect){
 			else if( ctrl_cur_bot_id != BOT_NONE ){
 				// got a value after command (with set bot id)
 
-				// check if command if for this bot or transmission ends
+				// check if command is for this bot or transmission ends
 				if( ctrl_cur_bot_id == sys_robotID || ctrl_state == CMD_V2_TRANS_END ){
 					if( sys_showControlTraffic )
 						led_on(LED_STATUS);

@@ -41,6 +41,6 @@ int main(void){
 		// process debugging module
 		debug_process();
 
-	};
+	}
 
 }

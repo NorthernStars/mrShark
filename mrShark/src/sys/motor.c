@@ -41,7 +41,6 @@ void motor_test(void){
  * Sets the motors speed
  */
 void motor_set_speed(uint8_t address, uint16_t speed, uint8_t direction){
-
 	speed = (speed * 100) / 0xff;
 	speed  = speed * (MOTOR_SPEED_MAX - MOTOR_SPEED_MIN);
 	speed = (speed / 100) + MOTOR_SPEED_MIN;

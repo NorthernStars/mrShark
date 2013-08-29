@@ -38,7 +38,7 @@ void suart_init(void){
     SUART_TX_PORT |= (1<<SUART_TX);
 #endif
 
-#ifdef CFG_SUART_RX
+#if defined(CFG_SUART_RX) || defined(CFG_SUART_TX)
 	// Enable timer
 	TCCR1B |= (1<<WGM12) | (1<<CS10);	// ctc mode, no prescaler
 	OCR1AH = SUART_COMP_VAL >> 8;		// set compare match value for baudrate
