@@ -7,6 +7,12 @@
 
 #include "../headers/sys.h"
 
+// -------- VARIABLES --------
+uint8_t motor_left_cmd = MOTOR_BRAKE;
+uint8_t motor_left_speed = MOTOR_BRAKE;
+uint8_t motor_right_cmd = MOTOR_BRAKE;
+uint8_t motor_right_speed = MOTOR_BRAKE;
+
 /**
  * Initiates motors
  */
@@ -34,14 +40,14 @@ void motor_test(void){
 /**
  * Sets the motors speed
  */
-void motor_set_speed(uint8_t address, uint8_t speed, uint8_t direction){
+void motor_set_speed(uint8_t address, uint16_t speed, uint8_t direction){
 
-	if(speed >= MOTOR_SPEED_MIN && speed <= MOTOR_SPEED_MAX){
-		i2c_start_wait( address + I2C_WRITE );
-		i2c_write( MOTOR_REG_CONTROL );
-		i2c_write( (speed<<2) | direction );
-		i2c_stop();
-	}
+	speed = (speed * 100) / 0xff;
+	speed  = speed * (MOTOR_SPEED_MAX - MOTOR_SPEED_MIN);
+	speed = (speed / 100) + MOTOR_SPEED_MIN;
+
+	if(speed >= MOTOR_SPEED_MIN && speed <= MOTOR_SPEED_MAX)
+		i2c_writeData( address, MOTOR_REG_CONTROL, (speed<<2)|direction );
 }
 
 /**
@@ -57,4 +63,22 @@ void motor_brake(uint8_t address){
 void motor_all_brake(void){
 	motor_brake(MOTOR_ADDR_L);
 	motor_brake(MOTOR_ADDR_R);
+}
+
+/**
+ * Returns motor direction command
+ */
+uint8_t motor_get_direction(uint8_t address){
+	return i2c_readData(address, MOTOR_REG_CONTROL) & 0x03;
+}
+
+/**
+ * Returns motor speed
+ */
+uint8_t motor_get_speed(uint8_t address){
+	uint16_t speed = i2c_readData(address, MOTOR_REG_CONTROL) >> 2;
+	speed = (speed - MOTOR_SPEED_MIN) * 100;
+	speed = speed / (MOTOR_SPEED_MAX - MOTOR_SPEED_MIN);
+	speed = (speed * 0xff) / 100;
+	return speed;
 }

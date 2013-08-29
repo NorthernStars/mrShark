@@ -194,3 +194,26 @@ unsigned char i2c_readNak(void)
     return TWDR;
 
 }/* i2c_readNak */
+
+
+
+/**
+ * Writes data via i2c
+ */
+void i2c_writeData(uint8_t address, uint8_t reg, uint8_t value){
+	i2c_start_wait( address + I2C_WRITE );
+	i2c_write( reg );
+	i2c_write( value );
+	i2c_stop();
+}
+
+
+/**
+ * Reads 8 bit data via i2c
+ */
+uint8_t i2c_readData(uint8_t address, uint8_t reg){
+	i2c_start_wait( address + I2C_WRITE );     	// set device address and write mode
+	i2c_write( reg );                        	// write address = 5
+	i2c_rep_start( address + I2C_READ );       	// set device address and read mode
+	return i2c_readNak();                    	// read one byte from EEPROM
+}

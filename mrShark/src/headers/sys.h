@@ -28,6 +28,7 @@
 #include "../lib/i2c/i2cmaster.h"
 #include "../lib/uart/uart.h"
 #include "../lib/suart/suart.h"
+#include "debug.h"
 #include "led.h"
 #include "motor.h"
 #include "control.h"

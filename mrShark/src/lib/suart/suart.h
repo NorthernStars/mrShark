@@ -46,14 +46,16 @@
 
 // -------- VARIABLES --------
 #ifdef CFG_SUART_RX
-extern uint8_t rxData;
-extern uint8_t rxFlag;
+extern uint8_t suart_rxData;
+extern uint8_t suart_rxFlag;
 #endif
 
 #ifdef CFG_SUART_TX
-extern uint8_t txData;
-extern uint8_t txFlag;
+extern uint8_t suart_txData;
+extern uint8_t suart_txFlag;
 #endif
+
+extern uint8_t suart_initated;
 
 
 // -------- FUNCTIONS --------

@@ -79,7 +79,6 @@ uint8_t control_getMotorSpeed(uint8_t motor);
 
 uint8_t control_getRobotID();
 
-void control_send_system_info(char *productName, char *productVersion, char *publisher);
 void control_IR_shutdown(void);
 void control_IR_switchon(void);
 

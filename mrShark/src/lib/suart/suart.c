@@ -12,14 +12,16 @@
 #include "../../headers/sys.h"
 
 #ifdef CFG_SUART_RX
-uint8_t rxData = 0x00;
-uint8_t rxFlag = FALSE;
+uint8_t suart_rxData = 0x00;
+uint8_t suart_rxFlag = FALSE;
 #endif
 
 #ifdef CFG_SUART_TX
-uint8_t txData = 0x00;
-uint8_t txFlag = FALSE;
+uint8_t suart_txData = 0x00;
+uint8_t suart_txFlag = FALSE;
 #endif
+
+uint8_t suart_initated = FALSE;
 
 /**
  * Initiates software uart
@@ -44,6 +46,8 @@ void suart_init(void){
 	TIMSK1 |= (1<<OCIE1A);				// enable compare match interrupt
 #endif
 
+	suart_initated= TRUE;
+
 }
 
 #ifdef CFG_SUART_RX
@@ -52,9 +56,11 @@ void suart_init(void){
  * Blocking call!
  */
 uint8_t suart_getc(void){
-	while(!rxFlag);
-	rxFlag = FALSE;
-	return rxData;
+	if(suart_initated){
+		while(!suart_rxFlag);
+		suart_rxFlag = FALSE;
+	}
+	return suart_rxData;
 }
 
 /**
@@ -62,9 +68,9 @@ uint8_t suart_getc(void){
  * or 0x00 if nothing recieved
  */
 uint8_t suart_read(void){
-	if(rxFlag){
-		rxFlag = FALSE;
-		return rxData;
+	if(suart_rxFlag && suart_initated){
+		suart_rxFlag = FALSE;
+		return suart_rxData;
 	}
 	return 0x00;
 }
@@ -76,9 +82,9 @@ uint8_t suart_read(void){
  * non-blocking call
  */
 void suart_putc(char data){
-	if(!txFlag){
-		txData = data;
-		txFlag = TRUE;
+	if(!suart_txFlag && suart_initated){
+		suart_txData = data;
+		suart_txFlag = TRUE;
 	}
 }
 
@@ -87,9 +93,11 @@ void suart_putc(char data){
  * blocking call
  */
 void suart_putc_wait(char data){
-	while(txFlag)
-		_delay_us(1);
-	suart_putc(data);
+	if(suart_initated){
+		while(suart_txFlag)
+			_delay_us(1);
+		suart_putc(data);
+	}
 }
 
 /**
@@ -97,11 +105,13 @@ void suart_putc_wait(char data){
  * blocking call
  */
 void suart_puts(char *s){
-	while(*s){
-		while(txFlag)
-			_delay_us(1);
-		suart_putc(*s);
-		s++;
+	if(suart_initated){
+		while(*s){
+			while(suart_txFlag)
+				_delay_us(1);
+			suart_putc(*s);
+			s++;
+		}
 	}
 }
 #endif /* CFG_SUART_TX */
@@ -130,7 +140,7 @@ ISR(TIMER1_COMPA_vect){
 		rxSampleCounter = 0x00;
 		rxDataCounter = 0x00;
 		rxDataTmp = 0x00;
-		rxFlag = FALSE;
+		suart_rxFlag = FALSE;
 
 	}
 	// START BIT
@@ -174,8 +184,8 @@ ISR(TIMER1_COMPA_vect){
 	else if( rxState == SUART_STATE_STOP ){
 		if( rxSampleCounter ==  (SUART_OVERSAMPLING - 1)*2 ){
 			if( rxLevelCounter > SUART_TH ){
-				rxData = rxDataTmp;
-				rxFlag = TRUE;
+				suart_rxData = rxDataTmp;
+				suart_rxFlag = TRUE;
 			}
 
 			rxState = SUART_STATE_IDLE;
@@ -193,11 +203,11 @@ ISR(TIMER1_COMPA_vect){
 	static uint8_t txDataTmp = 0x00;
 
 	// START DETECTED
-	if( txState == SUART_STATE_IDLE && txFlag ){
+	if( txState == SUART_STATE_IDLE && suart_txFlag ){
 		txState = SUART_STATE_START;
 		txSampleCounter = 0x00;
-		txDataTmp = txData;
-		txFlag = FALSE;
+		txDataTmp = suart_txData;
+		suart_txFlag = FALSE;
 	}
 	// START BIT
 	else if( txState == SUART_STATE_START ){

@@ -71,22 +71,12 @@ uint8_t control_getMotorSpeed(uint8_t motor){
 	uint16_t val = 0x00;
 	if(motor == MOTOR_ADDR_L){
 		ctrl_flag_motorL = FALSE;
-		val = ctrl_val_motorL;
+		return ctrl_val_motorL;
 	}
 	else{
 		ctrl_flag_motorR = FALSE;
-		val =  ctrl_val_motorR;
+		return  ctrl_val_motorR;
 	}
-
-	// convert speed to correct interval
-	val *= 100;
-	val /=  255;
-	val *= (MOTOR_SPEED_MAX - MOTOR_SPEED_MIN);
-	val += MOTOR_SPEED_MIN;
-	val /= 100;
-
-
-	return val;
 }
 
 /**
@@ -102,21 +92,6 @@ uint8_t control_getRobotID(){
  */
 uint8_t control_getCmd(void){
 	return uart_getc();
-}
-
-/**
- * Sends status information via uart
- */
-void control_send_system_info(char *productName, char *productVersion, char *publisher){
-#ifdef CFG_SUART_TX
-	suart_puts(publisher);
-	suart_puts("\r\n");
-	suart_puts(productName);
-	suart_puts(" ver. ");
-	suart_puts(productVersion);
-	suart_puts("\r\nid:");
-	suart_putc_wait( CFG_BOT_ID );
-#endif /* CFG_SUART_TX */
 }
 
 /**

@@ -38,6 +38,9 @@ int main(void){
 				sys_robotID = newID;
 		}
 
+		// process debugging module
+		debug_process();
+
 	};
 
 }
