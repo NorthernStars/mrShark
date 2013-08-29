@@ -45,7 +45,7 @@ extern uint8_t motor_right_speed;
 
 // -------- FUNCTIONS --------
 void motor_init(void);
-void motor_test(void);
+uint8_t motor_test(void);
 
 void motor_set_speed(uint8_t address, uint16_t speed, uint8_t direction);
 void motor_brake(uint8_t address);

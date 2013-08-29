@@ -20,12 +20,19 @@ void motor_init(void){
 
 	// test if motor drivers are available
 	motor_test();
+
 }
 
 /**
  * Runs motor test sequence
+ * Returns 0x00 if no fault conditions occured
+ * or 0xff if fault condition occured
  */
-void motor_test(void){
+uint8_t motor_test(void){
+	// clear motor faults
+	motor_clear_fault(MOTOR_ADDR_L);
+	motor_clear_fault(MOTOR_ADDR_R);
+
 	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_FORWARD);
 	motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
 	_delay_ms(1000);
@@ -35,6 +42,9 @@ void motor_test(void){
 	_delay_ms(1000);
 
 	motor_all_brake();
+
+	// check if fault condition occured
+	return (motor_get_fault(MOTOR_ADDR_L) | motor_get_fault(MOTOR_ADDR_R)) & MOTOR_FAULT_MASK;
 }
 
 /**

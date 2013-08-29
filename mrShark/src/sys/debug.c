@@ -121,6 +121,10 @@ void debug_process(void){
 			motor_clear_fault( MOTOR_ADDR_R );
 			break;
 
+		case 'M':
+			debug_send_c( motor_test() );
+			break;
+
 		case '?':
 			break;
 
