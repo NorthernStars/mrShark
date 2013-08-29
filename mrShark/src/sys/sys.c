@@ -51,7 +51,13 @@ void sys_init(void){
  * Initiates power saving
  */
 void sys_power_init(void){
-
+	PRR |= (SYS_POWER_DOWN_I2C<<PRTWI)
+		| (SYS_POWER_DOWN_SPI<<PRSPI)
+		| (SYS_POWER_DOWN_UART<<PRUSART0)
+		| (SYS_POWER_DOWN_TIMER0<<PRTIM0)
+		| (SYS_POWER_DOWN_TIMER1<<PRTIM1)
+		| (SYS_POWER_DOWN_TIMER2<<PRTIM2)
+		| (SYS_POWER_DOWN_ADC<<PRADC);
 }
 
 /**

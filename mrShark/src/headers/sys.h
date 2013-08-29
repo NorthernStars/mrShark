@@ -11,10 +11,23 @@
 
 #ifndef SYS_H_
 #define SYS_H_
+
+
 // -------- SYS_INFO --------
 #define SYS_NAME		"mrShark"
 #define SYS_VERSION		"1.0"
 #define SYS_PUBLISHER	"NorthernStars"
+
+
+// -------- ENEGRY CONFIGURATION --------
+// Set all componets to TRUE that aren't used
+#define SYS_POWER_DOWN_I2C		FALSE
+#define SYS_POWER_DOWN_TIMER0	FALSE
+#define SYS_POWER_DOWN_TIMER1	FALSE
+#define SYS_POWER_DOWN_TIMER2	TRUE
+#define SYS_POWER_DOWN_SPI		TRUE
+#define SYS_POWER_DOWN_UART		FALSE
+#define SYS_POWER_DOWN_ADC		TRUE
 
 
 // -------- INCLUDES --------
@@ -35,10 +48,6 @@
 #include "motor.h"
 #include "control.h"
 #include "monitor.h"
-
-/* 9600 baud */
-#define UART_BAUD_RATE		115200UL
-#define SUART_BAUD_RATE		4800UL
 
 // -------- VARIABLES --------
 extern uint8_t sys_robotID;
