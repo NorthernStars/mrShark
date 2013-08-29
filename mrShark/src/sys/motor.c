@@ -79,3 +79,17 @@ uint8_t motor_get_speed(uint8_t address){
 	speed = (speed * 0xff) / 100;
 	return speed;
 }
+
+/**
+ * Gets fault conditions from motor driver
+ */
+uint8_t motor_get_fault(uint8_t address){
+	return i2c_readData(address, MOTOR_REG_FAULT) & MOTOR_FAULT_MASK;
+}
+
+/**
+ * Clears the fault conditions ofmotor driver
+ */
+void motor_clear_fault(uint8_t address){
+	i2c_writeData(address, MOTOR_REG_FAULT, MOTOR_FAULT_CLEAR);
+}

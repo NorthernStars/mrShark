@@ -105,6 +105,27 @@ void debug_process(void){
 			debug_send_msg( SYS_NAME );
 			break;
 
+		case 'd':
+			debug_send_c( motor_get_fault(MOTOR_ADDR_L) );
+			break;
+
+		case 'e':
+			debug_send_c( motor_get_fault(MOTOR_ADDR_R) );
+			break;
+
+		case 'u':
+			motor_clear_fault( MOTOR_ADDR_L );
+			break;
+
+		case 'v':
+			motor_clear_fault( MOTOR_ADDR_R );
+			break;
+
+		case '?':
+			break;
+
+
+		// ---------- FOR TESTING ONLY -----------
 		case 'y':
 			i2c_writeData(MONITOR_ADDR_2, MONITOR_REG_CONTROL, 0x1f);
 			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_CONTROL) );
@@ -112,6 +133,7 @@ void debug_process(void){
 			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_TEMP_L) );
 			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_V2_H) );
 			break;
+		// ---------- FOR TESTING ONLY -----------
 
 		default:
 			debug_send_c( 0xff );
