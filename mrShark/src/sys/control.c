@@ -68,7 +68,6 @@ uint8_t control_getMotorCommand(uint8_t motor){
  * Returns speed value of a motor and resets flag
  */
 uint8_t control_getMotorSpeed(uint8_t motor){
-	uint16_t val = 0x00;
 	if(motor == MOTOR_ADDR_L){
 		ctrl_flag_motorL = FALSE;
 		return ctrl_val_motorL;
