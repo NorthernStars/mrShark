@@ -161,8 +161,10 @@ ISR(USART_RX_vect){
 
 				// check if command is for this bot or transmission ends
 				if( ctrl_cur_bot_id == sys_robotID || ctrl_state == CMD_V2_TRANS_END ){
+
 					if( sys_showControlTraffic )
 						led_on(LED_STATUS);
+
 
 					// process command
 					uint8_t err = 0x00;
@@ -199,22 +201,13 @@ ISR(USART_RX_vect){
 						ctrl_flag_motorR = TRUE;
 						break;
 
+					#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 					case CMD_V2_LEDS_ON:
 						led_all_on();
 						break;
 
 					case CMD_V2_LEDS_OFF:
 						led_all_off();
-						break;
-
-					case CMD_V2_LED_STAT_ON:
-						led_on(LED_STATUS);
-						sys_showControlTraffic = FALSE;
-						break;
-
-					case CMD_V2_LED_STAT_OFF:
-						led_off(LED_STATUS);
-						sys_showControlTraffic = CFG_SHOW_CONTROL_TRAFFIC;
 						break;
 
 					case CMD_V2_LED1_RED:
@@ -272,6 +265,17 @@ ISR(USART_RX_vect){
 					case CMD_V2_LED_OFF:
 						led_off(cmd);
 						break;
+					#endif
+
+					case CMD_V2_LED_STAT_ON:
+						led_on(LED_STATUS);
+						sys_showControlTraffic = FALSE;
+						break;
+
+					case CMD_V2_LED_STAT_OFF:
+						led_off(LED_STATUS);
+						sys_showControlTraffic = CFG_SHOW_CONTROL_TRAFFIC;
+						break;
 
 					case CMD_V2_SET_ID:
 						ctrl_val_id = cmd;
@@ -282,8 +286,10 @@ ISR(USART_RX_vect){
 						ctrl_state = CMD_V2_RESERVED;
 						ctrl_protocol_version = 0;
 						ctrl_cur_bot_id = BOT_NONE;
+
 						if( sys_showControlTraffic )
 							led_off(LED_STATUS);
+
 						err = 0x01;
 						break;
 

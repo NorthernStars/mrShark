@@ -18,7 +18,7 @@
 #define MOTOR_STANDBY		0x00
 #define MOTOR_FORWARD		0x01
 #define MOTOR_BACKWARD		0x02
-#define	MOTOR_BRAKE			0x03
+#define	 MOTOR_BRAKE		0x03
 
 // refer to datasheet before changing the next defines.
 // values are for an DRV8830 h-bridge motor driver
@@ -28,6 +28,7 @@
 #define MOTOR_SPEED_HALF	0x80
 
 // -------- FAULT CONDITIONS --------
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 #define MOTOR_FAULT_ILIMIT	16
 #define MOTOR_FAULT_OTS		8
 #define MOTOR_FAULT_UVLO	4
@@ -36,6 +37,7 @@
 
 #define MOTOR_FAULT_MASK	0x1f
 #define MOTOR_FAULT_CLEAR	0x80
+#endif
 
 // -------- VARIABLES --------
 extern uint8_t motor_left_cmd;
@@ -54,7 +56,9 @@ void motor_all_brake(void);
 uint8_t motor_get_direction(uint8_t address);
 uint8_t motor_get_speed(uint8_t address);
 
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 uint8_t motor_get_fault(uint8_t address);
 void motor_clear_fault(uint8_t address);
+#endif
 
 #endif /* MOTOR_H_ */

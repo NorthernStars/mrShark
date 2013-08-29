@@ -7,7 +7,7 @@
 
 #include "../headers/sys.h"
 
-// -------- VARIABLES --------
+#ifndef CFG_CODE_LEVEL_MIN
 
 /**
  * Initiates debugging module
@@ -45,6 +45,7 @@ void debug_process(void){
 			motor_set_speed(MOTOR_ADDR_R, 0x00, MOTOR_BRAKE);
 			break;
 
+		#if !defined(CFG_CODE_LEVEL_AVG)
 		case 'g':
 			led_set_allcolors();
 			led_all_on();
@@ -54,6 +55,7 @@ void debug_process(void){
 			led_set_nocolors();
 			led_all_off();
 			break;
+		#endif
 
 		case 's':
 			led_on(LED_STATUS);
@@ -73,6 +75,7 @@ void debug_process(void){
 			motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_FORWARD);
 			break;
 
+		#if !defined(CFG_CODE_LEVEL_AVG)
 		case 'm':
 			debug_send_c( motor_get_speed(MOTOR_ADDR_L) );
 			break;
@@ -87,22 +90,6 @@ void debug_process(void){
 
 		case 'p':
 			debug_send_c( motor_get_direction(MOTOR_ADDR_R) );
-			break;
-
-		case 'i':
-			debug_send_c( sys_robotID );
-			break;
-
-		case 'j':
-			debug_send_msg( SYS_PUBLISHER );
-			break;
-
-		case 'k':
-			debug_send_msg( SYS_VERSION );
-			break;
-
-		case 'l':
-			debug_send_msg( SYS_NAME );
 			break;
 
 		case 'd':
@@ -120,23 +107,41 @@ void debug_process(void){
 		case 'v':
 			motor_clear_fault( MOTOR_ADDR_R );
 			break;
+		#endif
+
+		case 'i':
+			debug_send_c( sys_robotID );
+			break;
+
+		case 'j':
+			debug_send_msg( SYS_PUBLISHER );
+			break;
+
+		case 'k':
+			debug_send_msg( SYS_VERSION );
+			break;
+
+		case 'l':
+			debug_send_msg( SYS_NAME );
+			break;
 
 		case 'M':
 			debug_send_c( motor_test() );
 			break;
 
 		case '?':
+			debug_send_help();
 			break;
 
 
 		// ---------- FOR TESTING ONLY -----------
-		case 'y':
-			i2c_writeData(MONITOR_ADDR_2, MONITOR_REG_CONTROL, 0x1f);
-			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_CONTROL) );
-			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_STATUS) );
-			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_TEMP_L) );
-			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_V2_H) );
-			break;
+//		case 'y':
+//			i2c_writeData(MONITOR_ADDR_2, MONITOR_REG_CONTROL, 0x1f);
+//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_CONTROL) );
+//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_STATUS) );
+//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_TEMP_L) );
+//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_V2_H) );
+//			break;
 		// ---------- FOR TESTING ONLY -----------
 
 		default:
@@ -156,16 +161,28 @@ void debug_process(void){
 void debug_send_system_info(char *productName, char *productVersion, char *publisher){
 #ifdef CFG_SUART_TX
 
-	debug_send_msg(publisher);
-	debug_send_msg("\r\n");
-	debug_send_msg(productName);
-	debug_send_msg(" ver. ");
-	debug_send_msg(productVersion);
-	debug_send_msg("\r\nid:");
-	debug_send_c_wait( CFG_BOT_ID );
+	debug_send_msg( publisher );
+	debug_send_msg( "\r\n" );
+	debug_send_msg( productName );
+	debug_send_msg( " ver. " );
+	debug_send_msg( productVersion );
+	debug_send_msg( "\r\nid:" );
+	debug_send_c_wait( sys_robotID );
+	debug_send_msg( "\r\n" );
 
 #endif /* CFG_SUART_TX */
 }
+
+
+/**
+ * Sends all available commands
+ */
+void debug_send_help(void){
+	debug_send_msg( "DEBUG COMMANDS:\r\n" );
+	debug_send_msg( "abcdefghijklmnoprstuvwzM?" );
+}
+
+
 
 /**
  * Sends a debug message string
@@ -191,3 +208,5 @@ void debug_send_c(char c){
 void debug_send_c_wait(char c){
 	suart_putc_wait(c);
 }
+
+#endif

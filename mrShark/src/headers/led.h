@@ -69,6 +69,7 @@ void led_init_timer(void);
 void led_on(uint8_t led);
 void led_off(uint8_t led);
 
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 void led_all_on(void);
 void led_all_off(void);
 
@@ -79,5 +80,6 @@ void led_set_color_blue(uint8_t b, uint8_t led);
 
 void led_set_allcolors(void);
 void led_set_nocolors(void);
+#endif
 
 #endif /* LED_H_ */

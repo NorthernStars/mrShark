@@ -18,12 +18,13 @@ volatile struct led_color led_color_W;
 void led_init(void){
 
 	// enable output ios
+	LED_STAT_DDR |= (1<<LED_STAT);
+
+	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	LED1_DDR |= (1<<LED1);
 	LED2_DDR |= (1<<LED2);
 	LED3_DDR |= (1<<LED3);
 	LED4_DDR |= (1<<LED4);
-
-	LED_STAT_DDR |= (1<<LED_STAT);
 
 	LED_COLOR_R_DDR |= (1<<LED_COLOR_R);
 	LED_COLOR_G_DDR |= (1<<LED_COLOR_G);
@@ -35,8 +36,10 @@ void led_init(void){
 
 	// initalize timer 0
 	led_init_timer();
+	#endif
 }
 
+#if !defined(CFG_CODE_LEVEL_AVG)
 /**
  * Initiates led timer
  */
@@ -48,12 +51,14 @@ void led_init_timer(void){
 	//OCR0A = 0x36;				// set compare match value to 54 (0x36) > 200 Hz PWM
 	OCR0A= 0xd8;				// set comapre match value to 216 (0xd8) > 50 Hz PWM
 }
+#endif
 
 /**
  * Switches one led on
  * Use defined LEDx for setting led number
  */
 void led_on(uint8_t led){
+	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	if( led & LED_N )
 		led_color_N.led_on = 0xff;
 	if( led & LED_O )
@@ -62,6 +67,7 @@ void led_on(uint8_t led){
 		led_color_S.led_on = 0xff;
 	if( led & LED_W )
 		led_color_W.led_on = 0xff;
+	#endif
 	if( led & LED_STATUS )
 		LED_STAT_PORT |= (1<<LED_STAT);
 }
@@ -71,6 +77,7 @@ void led_on(uint8_t led){
  * Use defined LEDx for setting led number
  */
 void led_off(uint8_t led){
+	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	if( led & LED_N )
 		led_color_N.led_on = 0x00;
 	if( led & LED_O )
@@ -79,11 +86,13 @@ void led_off(uint8_t led){
 		led_color_S.led_on = 0x00;
 	if( led & LED_W )
 		led_color_W.led_on = 0x00;
+	#endif
 	if( led & LED_STATUS )
 		LED_STAT_PORT &= ~(1<<LED_STAT);
 
 }
 
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 /**
  * Switches all leds on
  */
@@ -259,4 +268,4 @@ ISR( TIMER0_COMPA_vect ){
 	pwm++;
 }
 
-
+#endif

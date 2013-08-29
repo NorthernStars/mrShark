@@ -39,7 +39,9 @@ int main(void){
 			sys_ee_set_robotID( control_getRobotID() );
 
 		// process debugging module
+		#ifndef CFG_CODE_LEVEL_MIN
 		debug_process();
+		#endif
 
 	}
 

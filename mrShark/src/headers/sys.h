@@ -43,7 +43,11 @@
 #include "../lib/i2c/i2cmaster.h"
 #include "../lib/uart/uart.h"
 #include "../lib/suart/suart.h"
+
+#ifndef CFG_CODE_LEVEL_MIN
 #include "debug.h"
+#endif
+
 #include "led.h"
 #include "motor.h"
 #include "control.h"

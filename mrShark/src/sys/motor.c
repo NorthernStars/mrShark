@@ -29,9 +29,12 @@ void motor_init(void){
  * or 0xff if fault condition occured
  */
 uint8_t motor_test(void){
+
 	// clear motor faults
+	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	motor_clear_fault(MOTOR_ADDR_L);
 	motor_clear_fault(MOTOR_ADDR_R);
+	#endif
 
 	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_FORWARD);
 	motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
@@ -44,7 +47,11 @@ uint8_t motor_test(void){
 	motor_all_brake();
 
 	// check if fault condition occured
+	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	return (motor_get_fault(MOTOR_ADDR_L) | motor_get_fault(MOTOR_ADDR_R)) & MOTOR_FAULT_MASK;
+	#else
+	return 0x00;
+	#endif
 }
 
 /**
@@ -90,6 +97,7 @@ uint8_t motor_get_speed(uint8_t address){
 	return speed;
 }
 
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 /**
  * Gets fault conditions from motor driver
  */
@@ -103,3 +111,4 @@ uint8_t motor_get_fault(uint8_t address){
 void motor_clear_fault(uint8_t address){
 	i2c_writeData(address, MOTOR_REG_FAULT, MOTOR_FAULT_CLEAR);
 }
+#endif

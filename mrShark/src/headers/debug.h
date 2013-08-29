@@ -13,6 +13,7 @@ void debug_init(void);
 
 void debug_process(void);
 void debug_send_system_info(char *productName, char *productVersion, char *publisher);
+void debug_send_help(void);
 
 void debug_send_msg(char *s);
 void debug_send_c(char c);

@@ -15,7 +15,10 @@
 #define true	1
 #define false	0
 
-
+// uncomment ONE of the following lines to reduce code size
+// and to disable features
+//#define CFG_CODE_LEVEL_AVG			// no rgb-leds, no motor fault functions, basic debugging
+//#define CFG_CODE_LEVEL_MIN				// no rgb-leds, no motor fault functions, no debugging
 
 
 // -------- CONFIGURATION --------

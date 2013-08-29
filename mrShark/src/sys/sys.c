@@ -34,12 +34,17 @@ void sys_init(void){
 	motor_init();
 	control_init();
 	monitor_init();
+
+	#ifndef CFG_CODE_LEVEL_MIN
 	debug_init();
+	#endif
 
 	sei();
 
 	// send system information
+	#ifndef CFG_CODE_LEVEL_MIN
 	debug_send_system_info(SYS_NAME, SYS_VERSION, SYS_PUBLISHER);
+	#endif
 
 	// set led color green
 	led_off(LED_STATUS);
