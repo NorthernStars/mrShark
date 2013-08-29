@@ -45,9 +45,7 @@ void motor_set_speed(uint8_t address, uint16_t speed, uint8_t direction){
 	speed = (speed * 100) / 0xff;
 	speed  = speed * (MOTOR_SPEED_MAX - MOTOR_SPEED_MIN);
 	speed = (speed / 100) + MOTOR_SPEED_MIN;
-
-	if(speed >= MOTOR_SPEED_MIN && speed <= MOTOR_SPEED_MAX)
-		i2c_writeData( address, MOTOR_REG_CONTROL, (speed<<2)|direction );
+	i2c_writeData( address, MOTOR_REG_CONTROL, (speed<<2)|direction );
 }
 
 /**
