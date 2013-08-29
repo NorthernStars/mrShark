@@ -24,6 +24,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/eeprom.h>
+#include <avr/sleep.h>
 
 #include "config.h"
 #include "../lib/i2c/i2cmaster.h"
@@ -33,6 +34,7 @@
 #include "led.h"
 #include "motor.h"
 #include "control.h"
+#include "monitor.h"
 
 /* 9600 baud */
 #define UART_BAUD_RATE		115200UL
@@ -48,6 +50,9 @@ extern uint8_t  sys_ee_robotID EEMEM;
 
 // -------- FUNCTIONS --------
 void sys_init(void);
+void sys_power_init(void);
+void sys_sleep(void);
+
 uint8_t sys_ee_read_robotID(void);
 void sys_ee_set_robotID(uint8_t robotID);
 

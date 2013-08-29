@@ -37,7 +37,7 @@ void debug_process(void){
 
 		case'b':
 			motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
-			motor_set_speed(MOTOR_ADDR_R, 0xff, MOTOR_BACKWARD);
+			motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
 			break;
 
 		case 'z':
@@ -103,6 +103,14 @@ void debug_process(void){
 
 		case 'l':
 			debug_send_msg( SYS_NAME );
+			break;
+
+		case 'y':
+			i2c_writeData(MONITOR_ADDR_2, MONITOR_REG_CONTROL, 0x1f);
+			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_CONTROL) );
+			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_STATUS) );
+			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_TEMP_L) );
+			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_V2_H) );
 			break;
 
 		default:

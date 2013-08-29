@@ -12,12 +12,15 @@ uint8_t sys_robotID = CFG_BOT_ID;
 volatile uint8_t sys_showControlTraffic = CFG_SHOW_CONTROL_TRAFFIC;
 
 // -------- EEPROM DATA --------
-uint8_t sys_ee_robotID EEMEM;
+uint8_t sys_ee_robotID EEMEM = CFG_BOT_ID;
 
 /**
  * Initiates the complete system
  */
 void sys_init(void){
+
+	// initiate power saving
+	sys_power_init();
 
 	// read robot id
 	sys_robotID = sys_ee_read_robotID();
@@ -30,6 +33,7 @@ void sys_init(void){
 
 	motor_init();
 	control_init();
+	monitor_init();
 	debug_init();
 
 	sei();
@@ -41,6 +45,23 @@ void sys_init(void){
 	led_off(LED_STATUS);
 
 }
+
+
+/**
+ * Initiates power saving
+ */
+void sys_power_init(void){
+
+}
+
+/**
+ * Suspends system to idel state
+ */
+void sys_sleep(void){
+	set_sleep_mode(SLEEP_MODE_IDLE);
+	sleep_mode();
+}
+
 
 /**
  * Reads robot id from eeprom

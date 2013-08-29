@@ -16,6 +16,9 @@ int main(void){
 	// main loop
 	while(1){
 
+		// suspend system
+		sys_sleep();
+
 		// check for changed motor values
 		if( ctrl_flag_motorL ){
 			motor_set_speed(
