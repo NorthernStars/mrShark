@@ -19,16 +19,15 @@ void sys_init(void){
 	// call libraries init functions
 	i2c_init();
 	led_init();
-
-	// set led colors to red
-	led_set_color_red( 255, LED_N|LED_O|LED_S|LED_W );
-	led_on( LED_N|LED_O|LED_S|LED_W );
-
 	motor_init();
 	control_init();
 	suart_init();
 
 	sei();
+
+	// set led colors to red
+	led_set_color_red( 255, LED_N|LED_O|LED_S|LED_W );
+	led_on( LED_N|LED_O|LED_S|LED_W );
 
 	// send system information
 	control_send_system_info(SYS_NAME, SYS_VERSION, SYS_PUBLISHER);
