@@ -19,7 +19,10 @@ uint8_t sys_ee_robotID EEMEM;
  */
 void sys_init(void){
 
-	// call libraries init functions
+	// read robot id
+	sys_robotID = sys_ee_read_robotID();
+
+	// call libraries and modules init functions
 	i2c_init();
 	led_init();
 
