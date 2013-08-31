@@ -27,7 +27,9 @@ void debug_process(void){
 	if( suart_rxFlag ){
 		uint8_t cmd = suart_getc();
 
+		#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 		uint16_t tmp;
+		#endif
 
 		// process command
 		switch(cmd){
@@ -131,6 +133,7 @@ void debug_process(void){
 			debug_send_c( motor_test() );
 			break;
 
+		#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 		case 'T':
 			tmp = monitor_read_temp(MONITOR_ADDR_1);
 			debug_send_c_wait( tmp>>8);
@@ -187,6 +190,7 @@ void debug_process(void){
 				debug_send_c_wait( tmp>>8 );
 				debug_send_c_wait( tmp );
 			break;
+	#endif
 
 		case '?':
 			debug_send_help();

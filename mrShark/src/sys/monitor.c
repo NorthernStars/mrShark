@@ -7,6 +7,8 @@
 
 #include "../headers/sys.h"
 
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
+
 /**
  * Initiates monitoring module
  */
@@ -72,3 +74,5 @@ uint16_t monitor_read_voltage(uint8_t address, uint8_t voltage){
 uint16_t monitor_read_current(uint8_t address, uint8_t current){
 	return monitor_read_voltage(address, current);
 }
+
+#endif

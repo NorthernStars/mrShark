@@ -33,7 +33,10 @@ void sys_init(void){
 
 	motor_init();
 	control_init();
+
+	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	monitor_init();
+	#endif
 
 	#ifndef CFG_CODE_LEVEL_MIN
 	debug_init();
