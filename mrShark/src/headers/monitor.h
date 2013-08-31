@@ -31,7 +31,24 @@
 #define MONITOR_REG_VCC_H		0x0e
 #define MONITOR_REG_VCC_L		0x0f
 
+#define MONITOR_U1		1
+#define MONITOR_U2		2
+#define MONITOR_U3		3
+#define MONITOR_U4		4
+#define MONITOR_UVCC	5
+
+#define MONITOR_I1		1
+#define MONITOR_I2		3
+
+#define MONITOR_1_CONFIG		0x1e	// celsius, repeated conversion, mode 2:0, v1-v2, v3-v4
+#define MONITOR_2_CONFIG		0x1f	// celsius, repeated conversion, mode 2:0, v1, v2, v3, v4
+
+
 // -------- FUNCTIONS --------
 void monitor_init(void);
+
+uint16_t monitor_read_temp(uint8_t address);
+uint16_t monitor_read_voltage(uint8_t address, uint8_t voltage);
+uint16_t monitor_read_current(uint8_t address, uint8_t current);
 
 #endif /* MONITOR_H_ */

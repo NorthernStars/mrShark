@@ -27,6 +27,8 @@ void debug_process(void){
 	if( suart_rxFlag ){
 		uint8_t cmd = suart_getc();
 
+		uint16_t tmp;
+
 		// process command
 		switch(cmd){
 
@@ -129,20 +131,66 @@ void debug_process(void){
 			debug_send_c( motor_test() );
 			break;
 
+		case 'T':
+			tmp = monitor_read_temp(MONITOR_ADDR_1);
+			debug_send_c_wait( tmp>>8);
+			debug_send_c_wait( tmp );
+			debug_send_msg("\r\n");
+
+			tmp = monitor_read_temp(MONITOR_ADDR_2);
+			debug_send_c_wait( tmp>>8);
+			debug_send_c_wait( tmp );
+			break;
+
+		case 'U':
+			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U1);
+			debug_send_c_wait( tmp>>8 );
+			debug_send_c_wait( tmp );
+			break;
+
+		case 'V':
+			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U4);
+			debug_send_c_wait( tmp>>8 );
+			debug_send_c_wait( tmp );
+			break;
+
+		case 'W':
+			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U2);
+			debug_send_c_wait( tmp>>8 );
+			debug_send_c_wait( tmp );
+			break;
+
+		case 'X':
+			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U3);
+			debug_send_c_wait( tmp>>8 );
+			debug_send_c_wait( tmp );
+			break;
+
+		case 'I':
+			tmp = monitor_read_current(MONITOR_ADDR_1, MONITOR_I1);
+			debug_send_c_wait( tmp>>8 );
+			debug_send_c_wait( tmp );
+			break;
+
+		case 'J':
+			tmp = monitor_read_current(MONITOR_ADDR_1, MONITOR_I2);
+			debug_send_c_wait( tmp>>8 );
+			debug_send_c_wait( tmp );
+			break;
+
+		case 'A':
+			tmp = monitor_read_voltage(MONITOR_ADDR_1, MONITOR_UVCC);
+				debug_send_c_wait( tmp>>8 );
+				debug_send_c_wait( tmp );
+
+			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_UVCC);
+				debug_send_c_wait( tmp>>8 );
+				debug_send_c_wait( tmp );
+			break;
+
 		case '?':
 			debug_send_help();
 			break;
-
-
-		// ---------- FOR TESTING ONLY -----------
-//		case 'y':
-//			i2c_writeData(MONITOR_ADDR_2, MONITOR_REG_CONTROL, 0x1f);
-//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_CONTROL) );
-//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_STATUS) );
-//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_TEMP_L) );
-//			debug_send_c_wait( i2c_readData(MONITOR_ADDR_2, MONITOR_REG_V2_H) );
-//			break;
-		// ---------- FOR TESTING ONLY -----------
 
 		default:
 			debug_send_c( 0xff );
