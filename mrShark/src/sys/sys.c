@@ -40,6 +40,7 @@ void sys_init(void){
 
 	#ifndef CFG_CODE_LEVEL_MIN
 	debug_init();
+	animation_init();
 	#endif
 
 	sei();

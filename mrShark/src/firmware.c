@@ -38,8 +38,8 @@ int main(void){
 		if( ctrl_flag_id )
 			sys_ee_set_robotID( control_getRobotID() );
 
-		// process debugging module
 		#ifndef CFG_CODE_LEVEL_MIN
+		// process debugging module
 		debug_process();
 		#endif
 

@@ -190,7 +190,27 @@ void debug_process(void){
 				debug_send_c_wait( tmp>>8 );
 				debug_send_c_wait( tmp );
 			break;
-	#endif
+
+		case 'R':
+			animation_set_mode(ANIMATION_MODE_RED_PULSED);
+			break;
+
+		case 'S':
+			animation_set_mode(ANIMATION_MODE_STROBE);
+			break;
+
+		case 'F':
+			animation_set_mode(ANIMATION_MODE_FADE);
+			break;
+
+		case 'L':
+			animation_set_mode(ANIMATION_MODE_LADY);
+			break;
+
+		case 'N':
+			animation_set_mode(ANIMATION_MODE_NONE);
+			break;
+		#endif
 
 		case '?':
 			debug_send_help();

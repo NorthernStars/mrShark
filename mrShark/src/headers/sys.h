@@ -24,7 +24,7 @@
 #define SYS_POWER_DOWN_I2C		FALSE
 #define SYS_POWER_DOWN_TIMER0	FALSE
 #define SYS_POWER_DOWN_TIMER1	FALSE
-#define SYS_POWER_DOWN_TIMER2	TRUE
+#define SYS_POWER_DOWN_TIMER2	FALSE
 #define SYS_POWER_DOWN_SPI		TRUE
 #define SYS_POWER_DOWN_UART		FALSE
 #define SYS_POWER_DOWN_ADC		TRUE
@@ -44,14 +44,16 @@
 #include "../lib/uart/uart.h"
 #include "../lib/suart/suart.h"
 
-#ifndef CFG_CODE_LEVEL_MIN
-#include "debug.h"
-#endif
-
 #include "led.h"
 #include "motor.h"
 #include "control.h"
 #include "monitor.h"
+
+#ifndef CFG_CODE_LEVEL_MIN
+#include "debug.h"
+#include "animation.h"
+#endif
+
 
 // -------- VARIABLES --------
 extern uint8_t sys_robotID;
