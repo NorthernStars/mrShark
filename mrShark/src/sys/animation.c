@@ -109,6 +109,13 @@ void animation_fade(void){
 		else if( led_r < 0xff )
 			led_r += ANIM_FADE_INC;
 	}
+
+	// set color
+	led_all_on();
+	led_set_colors(led_r, led_g, led_b, LED_N);
+	led_set_colors(led_r, led_g, led_b, LED_O);
+	led_set_colors(led_r, led_g, led_b, LED_S);
+	led_set_colors(led_r, led_g, led_b, LED_W);
 }
 
 /**
