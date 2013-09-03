@@ -27,6 +27,7 @@
 #define CMD_V2_LEDS_ON			0x4d
 #define CMD_V2_LEDS_OFF			0x4e
 #define CMD_V2_PROTOCOL_VERSION	0x50
+#define CMD_V2_LED_ANIMATION	0x53
 #define CMD_V2_LED_STAT_ON		0x55
 #define CMD_V2_LED_STAT_OFF		0x56
 #define CMD_V2_ROBOT_ID			0x5a

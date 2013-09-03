@@ -202,6 +202,10 @@ ISR(USART_RX_vect){
 						break;
 
 					#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
+					case CMD_V2_LED_ANIMATION:
+						animation_set_mode(cmd);
+						break;
+
 					case CMD_V2_LEDS_ON:
 						led_all_on();
 						break;
