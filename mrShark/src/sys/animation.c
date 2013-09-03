@@ -83,7 +83,32 @@ void animation_red_pulsed(void){
  * Fade animation
  */
 void animation_fade(void){
-	// TO-DO
+	#define ANIM_FADE_INC	1
+	static uint8_t led_r = 0xff;
+	static uint8_t led_g = 0x00;
+	static uint8_t led_b = 0x00;
+
+	// fade leds
+	if( led_r == 0xff ){
+		if( led_b > 0 )
+			led_b -= ANIM_FADE_INC;
+		else if( led_g < 0xff )
+			led_g += ANIM_FADE_INC;
+	}
+
+	if( led_g == 0xff ){
+		if( led_r > 0 )
+			led_r -= ANIM_FADE_INC;
+		else if( led_b < 0xff )
+			led_b += ANIM_FADE_INC;
+	}
+
+	if( led_b == 0xff ){
+		if( led_g > 0 )
+			led_g -= ANIM_FADE_INC;
+		else if( led_r < 0xff )
+			led_r += ANIM_FADE_INC;
+	}
 }
 
 /**
