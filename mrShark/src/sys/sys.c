@@ -43,6 +43,7 @@ void sys_init(void){
 	animation_init();
 	#endif
 
+	// activate interrupts
 	sei();
 
 	// send system information
@@ -98,3 +99,33 @@ void sys_ee_set_robotID(uint8_t robotID){
 	sys_robotID = robotID;
 	eeprom_update_byte( &sys_ee_robotID, robotID );
 }
+
+/**
+ * Sets the channel/mode of onboard i2c
+ */
+void sys_set_onboard_i2c(uint8_t channel){
+	i2c_writeData( SYS_I2C_ONBOARD_ADDR, channel, channel );
+}
+
+/**
+ * Reads status of onboard i2c
+ */
+uint8_t sys_read_onboard_i2c(void){
+	i2c_start_wait( SYS_I2C_ONBOARD_ADDR + I2C_READ );
+	return i2c_readNak();
+}
+
+/**
+ * Enables the onboard i2c circuit
+ */
+void sys_enable_onboard_i2c(void){
+	sys_set_onboard_i2c(SYS_I2C_ONBOARD_SEL_CH0);
+}
+
+/**
+ * Disables the onboard i2c circuit
+ */
+void sys_disable_onboard_i2c(void){
+	sys_set_onboard_i2c(SYS_I2C_ONBOARD_SEL_NONE);
+}
+

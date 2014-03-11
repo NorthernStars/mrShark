@@ -4,6 +4,7 @@
  *  Created on: 14.05.2013
  *      Author: hannes
  */
+#include <util/twi.h>
 
 #include "headers/sys.h"
 
@@ -12,6 +13,8 @@ int main(void){
 
 	// initiate system
 	sys_init();
+
+	animation_set_mode(ANIMATION_MODE_FADE);
 
 	// main loop
 	while(1){

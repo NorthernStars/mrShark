@@ -182,7 +182,7 @@ void led_set_color_blue(uint8_t b, uint8_t led){
 }
 
 /**
- * Switche all colors off
+ * Switch all colors on
  */
 void led_set_allcolors(void){
 	led_color_N.color_r = led_color_O.color_r = led_color_S.color_r
@@ -194,7 +194,7 @@ void led_set_allcolors(void){
 }
 
 /**
- * Switche all colors off
+ * Switch all colors off
  */
 void led_set_nocolors(void){
 	led_color_N.color_r = led_color_N.color_g = led_color_N.color_b = 0x00;

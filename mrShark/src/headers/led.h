@@ -17,18 +17,18 @@
 #define LED1_DDR	DDRD
 #define LED1_PORT	PORTD
 
-#define LED2_DDR	DDRD
-#define LED2_PORT	PORTD
+#define LED2_DDR	DDRC
+#define LED2_PORT	PORTC
 
-#define LED3_DDR	DDRC
-#define LED3_PORT	PORTC
+#define LED3_DDR	DDRD
+#define LED3_PORT	PORTD
 
 #define LED4_DDR	DDRC
 #define LED4_PORT	PORTC
 
 #define LED1		PD6
-#define LED2		PD5
-#define LED3		PC3
+#define LED2		PC3
+#define LED3		PD5
 #define LED4		PC2
 
 #define LED_N		1		// LED1

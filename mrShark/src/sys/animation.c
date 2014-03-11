@@ -156,12 +156,12 @@ void animation_lady(void){
 	// fade color
 	if( ledInc && led_r < 0xff )
 		led_r++;
-	else if( !ledInc && led_r > 0x80 )
+	else
 		led_r--;
 
 	// set color
 	led_all_on();
-	led_set_colors(led_r, 0xff, 0x00, led);
+	led_set_colors(led_r, 0x00, 0xff, led);
 
 	// switch led
 	if( led_r == 0xff || led_r == 0x80 ){

@@ -9,10 +9,14 @@
 #include <inttypes.h>
 #include <util/twi.h>
 
+#ifndef F_CPU
+#define F_CPU 14745600UL
+#endif
+
 #include "../../headers/sys.h"
 
 /* I2C clock in Hz */
-#define SCL_CLOCK  100000L
+#define SCL_CLOCK  10000L
 
 
 /*************************************************************************
@@ -71,15 +75,19 @@ unsigned char i2c_start(unsigned char address)
 void i2c_start_wait(unsigned char address)
 {
     uint8_t   twst;
+    uint8_t i = 10;
 
 
-    while ( 1 )
+    while ( i > 0 )
     {
+    	// increment counter
+    	i++;
+
 	    // send START condition
 	    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
     
     	// wait until transmission completed
-    	while(!(TWCR & (1<<TWINT))){};
+    	while(!(TWCR & (1<<TWINT)));
     
     	// check value of TWI Status Register. Mask prescaler bits.
     	twst = TW_STATUS & 0xF8;
@@ -97,10 +105,7 @@ void i2c_start_wait(unsigned char address)
     	if ( (twst == TW_MT_SLA_NACK )||(twst ==TW_MR_DATA_NACK) ) 
     	{    	    
     	    /* device busy, send stop condition to terminate write operation */
-	        TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
-	        
-	        // wait until stop condition is executed and bus released
-	        while(TWCR & (1<<TWSTO));
+	        i2c_stop();
 	        
     	    continue;
     	}

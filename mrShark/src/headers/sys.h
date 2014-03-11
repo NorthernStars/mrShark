@@ -6,7 +6,8 @@
  */
 
 #ifndef F_CPU
-#define F_CPU 			11059200UL
+#define F_CPU			14745600UL
+//#define F_CPU 			11059200UL
 #endif
 
 #ifndef SYS_H_
@@ -29,6 +30,12 @@
 #define SYS_POWER_DOWN_UART		FALSE
 #define SYS_POWER_DOWN_ADC		TRUE
 
+// -------- ONBOARD I2C CONFIGURATION --------
+#define SYS_I2C_ONBOARD_ACTIVE		TRUE
+#define SYS_I2C_ONBOARD_ADDR		0xE0
+#define SYS_I2C_ONBOARD_SEL_CH0		0x04
+#define SYS_I2C_ONBOARD_SEL_CH1		0x05
+#define SYS_I2C_ONBOARD_SEL_NONE	0x00
 
 // -------- INCLUDES --------
 #include <avr/io.h>
@@ -70,6 +77,11 @@ void sys_sleep(void);
 
 uint8_t sys_ee_read_robotID(void);
 void sys_ee_set_robotID(uint8_t robotID);
+
+void sys_set_onboard_i2c(uint8_t channel);
+uint8_t sys_read_onboard_i2c(void);
+void sys_enable_onboard_i2c(void);
+void sys_disable_onboard_i2c(void);
 
 
 #endif /* SYS_H_ */
