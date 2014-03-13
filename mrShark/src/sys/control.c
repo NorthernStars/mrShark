@@ -114,6 +114,11 @@ ISR(USART_RX_vect){
 
 	uint8_t cmd = UDR0;
 
+	led_on(LED_STATUS);
+	_delay_ms(200);
+	led_off(LED_STATUS);
+	_delay_ms(200);
+
 	// command control state machine for protocol version 2
 	if( ctrl_state == CMD_V2_RESERVED && cmd == CMD_V2_PROTOCOL_VERSION ){
 		// transimissison started

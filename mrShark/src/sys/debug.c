@@ -251,7 +251,50 @@ void debug_send_system_info(char *productName, char *productVersion, char *publi
  */
 void debug_send_help(void){
 	debug_send_msg( "DEBUG COMMANDS:\r\n" );
-	debug_send_msg( "abcdefghijklmnoprstuvwzM?" );
+	debug_send_msg( "abcdefghijklmnoprstuvwzM?\r\n" );
+
+	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
+	char motors[] = {"motors"};
+	char motor[] = {"motor"};
+	char animation[] = {"anim."};
+	char voltage[] = {"volt."};
+
+	debug_send_msg( "f: ");	debug_send_msg(motors); debug_send_msg( " fwd\r\n" );
+	debug_send_msg( "b: ");	debug_send_msg(motors); debug_send_msg( " bwd\r\n" );
+	debug_send_msg( "z: ");	debug_send_msg(motors); debug_send_msg( " brake\r\n" );
+	debug_send_msg( "g: rgb leds on\r\n" );
+	debug_send_msg( "h: rgb leds off\r\n" );
+	debug_send_msg( "s: stat led on\r\n" );
+	debug_send_msg( "r: stat led off\r\n" );
+	debug_send_msg( "c: turn cw\r\n" );
+	debug_send_msg( "a: turn ccw\r\n" );
+	debug_send_msg( "m: L-");	debug_send_msg(motor); debug_send_msg( " speed\r\n" );
+	debug_send_msg( "n: R-");	debug_send_msg(motor); debug_send_msg( " speed\r\n" );
+	debug_send_msg( "o: L-");	debug_send_msg(motor); debug_send_msg( " cmd\r\n" );
+	debug_send_msg( "p: R-");	debug_send_msg(motor); debug_send_msg( " cmd\r\n" );
+	debug_send_msg( "i: bot ID\r\n" );
+	debug_send_msg( "j: publisher\r\n" );
+	debug_send_msg( "k: version\r\n" );
+	debug_send_msg( "l: name\r\n" );
+	debug_send_msg( "d: L-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
+	debug_send_msg( "e: R-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
+	debug_send_msg( "u: clear L-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
+	debug_send_msg( "v: clear R-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
+	debug_send_msg( "M: ");	debug_send_msg(motors);	debug_send_msg( " test\r\n" );
+	debug_send_msg( "T: temp.\r\n" );
+	debug_send_msg( "U: ");	debug_send_msg(voltage); debug_send_msg( "1\r\n" );
+	debug_send_msg( "V: ");	debug_send_msg(voltage); debug_send_msg( "2\r\n" );
+	debug_send_msg( "W: ");	debug_send_msg(voltage); debug_send_msg( " bat1\r\n" );
+	debug_send_msg( "X: ");	debug_send_msg(voltage); debug_send_msg( " bat2\r\n" );
+	debug_send_msg( "I: cur. L-");	debug_send_msg(motor); debug_send_msg( "\r\n" );
+	debug_send_msg( "J: cur. R-");	debug_send_msg(motor); debug_send_msg( "\r\n" );
+	debug_send_msg( "A: VCCs\r\n" );
+	debug_send_msg( "R: red pulsed ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
+	debug_send_msg( "S: strobe ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
+	debug_send_msg( "L: lady ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
+	debug_send_msg( "F: fade ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
+	debug_send_msg( "N: no ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
+	#endif
 }
 
 
