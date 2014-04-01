@@ -19,6 +19,8 @@ uint8_t sys_ee_robotID EEMEM = CFG_BOT_ID;
  */
 void sys_init(void){
 
+
+
 	// initiate power saving
 	sys_power_init();
 
@@ -28,11 +30,10 @@ void sys_init(void){
 	// call libraries and modules init functions
 	i2c_init();
 	led_init();
-
 	led_on(LED_STATUS);
 
-	motor_init();
 	control_init();
+//	motor_init();
 
 	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	monitor_init();

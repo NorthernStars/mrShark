@@ -27,7 +27,7 @@ void debug_process(void){
 	if( suart_rxFlag ){
 		uint8_t cmd = suart_getc();
 
-		#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
+		#if !defined(CFG_CODE_LEVEL_AVG)
 		uint16_t tmp;
 		#endif
 
@@ -133,7 +133,7 @@ void debug_process(void){
 			debug_send_c( motor_test() );
 			break;
 
-		#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
+		#if !defined(CFG_CODE_LEVEL_AVG)
 		case 'T':
 			tmp = monitor_read_temp(MONITOR_ADDR_1);
 			debug_send_c_wait( tmp>>8);
@@ -253,7 +253,7 @@ void debug_send_help(void){
 	debug_send_msg( "DEBUG COMMANDS:\r\n" );
 	debug_send_msg( "abcdefghijklmnoprstuvwzM?\r\n" );
 
-	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
+	#if !defined(CFG_CODE_LEVEL_AVG)
 	char motors[] = {"motors"};
 	char motor[] = {"motor"};
 	char animation[] = {"anim."};

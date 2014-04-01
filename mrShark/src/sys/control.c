@@ -114,11 +114,6 @@ ISR(USART_RX_vect){
 
 	uint8_t cmd = UDR0;
 
-	led_on(LED_STATUS);
-	_delay_ms(200);
-	led_off(LED_STATUS);
-	_delay_ms(200);
-
 	// command control state machine for protocol version 2
 	if( ctrl_state == CMD_V2_RESERVED && cmd == CMD_V2_PROTOCOL_VERSION ){
 		// transimissison started
@@ -147,9 +142,10 @@ ISR(USART_RX_vect){
 
 		default:
 
-			if( ctrl_state == CMD_V2_SECTION_SEP || ctrl_state == CMD_V2_SEPERATOR )
+			if( ctrl_state == CMD_V2_SECTION_SEP || ctrl_state == CMD_V2_SEPERATOR ){
 				// recieved command after seperator
 				ctrl_state = cmd;
+			}
 			else if( ctrl_state == CMD_V2_ROBOT_ID ){
 				// recvied robot id value
 				ctrl_cur_bot_id = cmd;
@@ -166,10 +162,10 @@ ISR(USART_RX_vect){
 
 				// check if command is for this bot or transmission ends
 				if( ctrl_cur_bot_id == sys_robotID || ctrl_state == CMD_V2_TRANS_END ){
-
+					#if CFG_SHOW_CONTROL_TRAFFIC
 					if( sys_showControlTraffic )
 						led_on(LED_STATUS);
-
+					#endif
 
 					// process command
 					uint8_t err = 0x00;
@@ -296,8 +292,10 @@ ISR(USART_RX_vect){
 						ctrl_protocol_version = 0;
 						ctrl_cur_bot_id = BOT_NONE;
 
+						#if CFG_SHOW_CONTROL_TRAFFIC
 						if( sys_showControlTraffic )
 							led_off(LED_STATUS);
+						#endif
 
 						err = 0x01;
 						break;

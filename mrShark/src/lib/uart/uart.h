@@ -6,7 +6,7 @@
  */
 
 #ifndef F_CPU
-#define F_CPU		11059200UL
+#define F_CPU			14745600UL
 #endif
 
 #ifndef UART_H
@@ -14,6 +14,7 @@
 
 // -------- DEFINES --------
 #define UART_BAUD 115200UL      // Baudrate
+//#define UART_BAUD 57471UL      // Baudrate
 
 // Berechnungen
 #define UART_UBRR_VAL ((F_CPU+UART_BAUD*8)/(UART_BAUD*16)-1)  	// round clever
