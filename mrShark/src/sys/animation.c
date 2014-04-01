@@ -7,7 +7,7 @@
 
 #include "../headers/sys.h"
 
-#ifndef CFG_CODE_LEVEL_MIN
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 // -------- VARIABLES --------
 uint8_t animation_mode = ANIMATION_MODE_NONE;
 

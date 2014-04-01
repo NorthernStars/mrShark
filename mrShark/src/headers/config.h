@@ -17,7 +17,7 @@
 
 // uncomment ONE of the following lines to reduce code size
 // and to disable features
-//#define CFG_CODE_LEVEL_AVG				// no rgb-leds, no motor fault functions, no monitoring, basic debugging
+#define CFG_CODE_LEVEL_AVG				// no rgb-leds, no motor fault functions, no monitoring, basic debugging
 //#define CFG_CODE_LEVEL_MIN				// no rgb-leds, no motor fault functions, no monitoring, no debugging
 
 

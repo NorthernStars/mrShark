@@ -37,11 +37,12 @@ void sys_init(void){
 
 	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	monitor_init();
+	animation_init();
 	#endif
 
 	#ifndef CFG_CODE_LEVEL_MIN
 	debug_init();
-	animation_init();
+
 	#endif
 
 	// activate interrupts
