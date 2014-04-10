@@ -16,19 +16,8 @@
 
 // -------- SYS_INFO --------
 #define SYS_NAME		"mrShark"
-#define SYS_VERSION		"1.0"
+#define SYS_VERSION		"1.0.0b"
 #define SYS_PUBLISHER	"NorthernStars"
-
-
-// -------- ENEGRY CONFIGURATION --------
-// Set all componets to TRUE that aren't used
-#define SYS_POWER_DOWN_I2C		FALSE
-#define SYS_POWER_DOWN_TIMER0	FALSE
-#define SYS_POWER_DOWN_TIMER1	FALSE
-#define SYS_POWER_DOWN_TIMER2	FALSE
-#define SYS_POWER_DOWN_SPI		TRUE
-#define SYS_POWER_DOWN_UART		FALSE
-#define SYS_POWER_DOWN_ADC		TRUE
 
 // -------- ONBOARD I2C CONFIGURATION --------
 #define SYS_I2C_ONBOARD_ACTIVE		TRUE
