@@ -19,8 +19,6 @@ uint8_t sys_ee_robotID EEMEM = CFG_BOT_ID;
  */
 void sys_init(void){
 
-
-
 	// initiate power saving
 	sys_power_init();
 
@@ -29,11 +27,12 @@ void sys_init(void){
 
 	// call libraries and modules init functions
 	i2c_init();
+	sys_enable_onboard_i2c();
 	led_init();
 	led_on(LED_STATUS);
 
 	control_init();
-//	motor_init();
+	motor_init();
 
 	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	monitor_init();
@@ -106,7 +105,7 @@ void sys_ee_set_robotID(uint8_t robotID){
  * Sets the channel/mode of onboard i2c
  */
 void sys_set_onboard_i2c(uint8_t channel){
-	i2c_writeData( SYS_I2C_ONBOARD_ADDR, channel, channel );
+	i2c_writeDataRegOnly( SYS_I2C_ONBOARD_ADDR, channel );
 }
 
 /**

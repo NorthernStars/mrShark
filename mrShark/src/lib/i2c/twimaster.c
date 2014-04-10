@@ -212,6 +212,15 @@ void i2c_writeData(uint8_t address, uint8_t reg, uint8_t value){
 	i2c_stop();
 }
 
+/**
+ * Writes data via i2c (register only)
+ */
+void i2c_writeDataRegOnly(uint8_t address, uint8_t reg){
+	i2c_start_wait( address + I2C_WRITE );
+	i2c_write( reg );
+	i2c_stop();
+}
+
 
 /**
  * Reads 8 bit data via i2c

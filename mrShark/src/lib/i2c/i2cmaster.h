@@ -177,6 +177,7 @@ unsigned char i2c_read(unsigned char ack);
  * Writes data via i2c
  */
 void i2c_writeData(uint8_t address, uint8_t reg, uint8_t value);
+void i2c_writeDataRegOnly(uint8_t address, uint8_t reg);
 uint8_t i2c_readData(uint8_t address, uint8_t reg);
 
 
