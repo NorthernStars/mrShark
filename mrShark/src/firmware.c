@@ -14,7 +14,7 @@ int main(void){
 	// initiate system
 	sys_init();
 
-//	animation_set_mode(ANIMATION_MODE_FADE);
+	animation_set_mode(ANIMATION_MODE_FADE);
 
 	// main loop
 	while(1){
