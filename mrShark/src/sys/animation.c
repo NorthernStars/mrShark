@@ -148,39 +148,53 @@ void animation_strobe(void){
 /**
  * Lady animation
  */
+#define ANIMATION_LADY_RED_LTH		0x00
 void animation_lady(void){
-	static uint8_t led_r = 0x80;
+	static uint8_t led_r = ANIMATION_LADY_RED_LTH;
 	static uint8_t led = LED_N;
 	static uint8_t ledInc = TRUE;
-
-	// fade color
-	if( ledInc && led_r < 0xff )
-		led_r++;
-	else
-		led_r--;
 
 	// set color
 	led_all_on();
 	led_set_colors(led_r, 0x00, 0xff, led);
 
-	// switch led
-	if( led_r == 0xff || led_r == 0x80 ){
-		if( led == LED_N )
+	// calculate new color
+	if( !ledInc ){
+		led_r--;
+	}
+	else{
+		led_r++;
+	}
+
+	if( led_r <= ANIMATION_LADY_RED_LTH || led_r == 0xff ){
+		if( led == LED_N ){
 			led = LED_O;
-		else if( led == LED_O )
+		}
+		else if( led == LED_O ){
 			led = LED_S;
-		else if( led == LED_S )
+		}
+		else if( led == LED_S ){
 			led = LED_W;
+		}
 		else{
 			led = LED_N;
-			if( ledInc )
+			if( ledInc ){
 				ledInc = FALSE;
-			else
+			}
+			else {
 				ledInc = TRUE;
+			}
 		}
 
-		led_r = 0x80;
+		if( ledInc ){
+			led_r = ANIMATION_LADY_RED_LTH;
+		}
+		else{
+			led_r = 0xff;
+		}
+
 	}
+
 }
 
 #endif
