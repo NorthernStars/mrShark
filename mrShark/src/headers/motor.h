@@ -16,8 +16,8 @@
 #define MOTOR_REG_FAULT		0x01
 
 #define MOTOR_STANDBY		0x00
-#define MOTOR_FORWARD		0x01
-#define MOTOR_BACKWARD		0x02
+#define MOTOR_FORWARD		0x02
+#define MOTOR_BACKWARD		0x01
 #define	 MOTOR_BRAKE		0x03
 
 // refer to datasheet before changing the next defines.

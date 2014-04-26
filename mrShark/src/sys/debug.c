@@ -35,13 +35,13 @@ void debug_process(void){
 		switch(cmd){
 
 		case 'f':
-			motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_FORWARD);
-			motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_FORWARD);
+			motor_set_speed(MOTOR_ADDR_L, 0x50, MOTOR_FORWARD);
+			motor_set_speed(MOTOR_ADDR_R, 0x40, MOTOR_FORWARD);
 			break;
 
 		case'b':
-			motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
-			motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
+			motor_set_speed(MOTOR_ADDR_L, 0x40, MOTOR_BACKWARD);
+			motor_set_speed(MOTOR_ADDR_R, 0x43, MOTOR_BACKWARD);
 			break;
 
 		case 'z':
