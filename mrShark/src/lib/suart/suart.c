@@ -12,16 +12,16 @@
 #include "../../headers/sys.h"
 
 #ifdef CFG_SUART_RX
-uint8_t suart_rxData = 0x00;
-uint8_t suart_rxFlag = FALSE;
+volatile uint8_t suart_rxData = 0x00;
+volatile uint8_t suart_rxFlag = FALSE;
 #endif
 
 #ifdef CFG_SUART_TX
-uint8_t suart_txData = 0x00;
-uint8_t suart_txFlag = FALSE;
+volatile uint8_t suart_txData = 0x00;
+volatile uint8_t suart_txFlag = FALSE;
 #endif
 
-uint8_t suart_initated = FALSE;
+volatile uint8_t suart_initated = FALSE;
 
 /**
  * Initiates software uart

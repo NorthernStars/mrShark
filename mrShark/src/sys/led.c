@@ -114,6 +114,17 @@ void led_all_off(void){
 }
 
 /**
+ * Sets a rgb color to all leds
+ */
+void led_set_all_colors(uint8_t r, uint8_t g, uint8_t b){
+	led_set_colors(r, g, b, LED_N);
+	led_set_colors(r, g, b, LED_O);
+	led_set_colors(r, g, b, LED_W);
+	led_set_colors(r, g, b, LED_S);
+}
+
+
+/**
  * Sets a rgb color
  */
 void led_set_colors(uint8_t r, uint8_t g, uint8_t b, uint8_t led){

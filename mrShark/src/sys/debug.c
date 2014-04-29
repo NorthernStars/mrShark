@@ -81,27 +81,27 @@ void debug_process(void){
 
 		#if !defined(CFG_CODE_LEVEL_AVG)
 		case 'm':
-			debug_send_c( motor_get_speed(MOTOR_ADDR_L) );
+			debug_send_c( motor_get_speed(MOTOR_ADDR_L), TRUE );
 			break;
 
 		case 'n':
-			debug_send_c( motor_get_speed(MOTOR_ADDR_R) );
+			debug_send_c( motor_get_speed(MOTOR_ADDR_R), TRUE );
 			break;
 
 		case 'o':
-			debug_send_c( motor_get_direction(MOTOR_ADDR_L) );
+			debug_send_c( motor_get_direction(MOTOR_ADDR_L), TRUE );
 			break;
 
 		case 'p':
-			debug_send_c( motor_get_direction(MOTOR_ADDR_R) );
+			debug_send_c( motor_get_direction(MOTOR_ADDR_R), TRUE );
 			break;
 
 		case 'd':
-			debug_send_c( motor_get_fault(MOTOR_ADDR_L) );
+			debug_send_c( motor_get_fault(MOTOR_ADDR_L), TRUE );
 			break;
 
 		case 'e':
-			debug_send_c( motor_get_fault(MOTOR_ADDR_R) );
+			debug_send_c( motor_get_fault(MOTOR_ADDR_R), TRUE );
 			break;
 
 		case 'u':
@@ -114,81 +114,80 @@ void debug_process(void){
 		#endif
 
 		case 'i':
-			debug_send_c( sys_robotID );
+			debug_send_c( sys_robotID, TRUE );
 			break;
 
 		case 'j':
-			debug_send_msg( SYS_PUBLISHER );
+			debug_send_msg( SYS_PUBLISHER, TRUE );
 			break;
 
 		case 'k':
-			debug_send_msg( SYS_VERSION );
+			debug_send_msg( SYS_VERSION, TRUE );
 			break;
 
 		case 'l':
-			debug_send_msg( SYS_NAME );
+			debug_send_msg( SYS_NAME, TRUE );
 			break;
 
 		case 'M':
-			debug_send_c( motor_test() );
+			debug_send_c( motor_test(), TRUE );
 			break;
 
 		#if !defined(CFG_CODE_LEVEL_AVG)
 		case 'T':
 			tmp = monitor_read_temp(MONITOR_ADDR_1);
-			debug_send_c_wait( tmp>>8);
-			debug_send_c_wait( tmp );
-			debug_send_msg("\r\n");
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, FALSE );
 
 			tmp = monitor_read_temp(MONITOR_ADDR_2);
-			debug_send_c_wait( tmp>>8);
-			debug_send_c_wait( tmp );
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'U':
 			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U1);
-			debug_send_c_wait( tmp>>8 );
-			debug_send_c_wait( tmp );
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'V':
 			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U4);
-			debug_send_c_wait( tmp>>8 );
-			debug_send_c_wait( tmp );
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'W':
 			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U2);
-			debug_send_c_wait( tmp>>8 );
-			debug_send_c_wait( tmp );
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'X':
 			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_U3);
-			debug_send_c_wait( tmp>>8 );
-			debug_send_c_wait( tmp );
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'I':
 			tmp = monitor_read_current(MONITOR_ADDR_1, MONITOR_I1);
-			debug_send_c_wait( tmp>>8 );
-			debug_send_c_wait( tmp );
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'J':
 			tmp = monitor_read_current(MONITOR_ADDR_1, MONITOR_I2);
-			debug_send_c_wait( tmp>>8 );
-			debug_send_c_wait( tmp );
+			debug_send_c_wait( tmp>>8, FALSE );
+			debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'A':
 			tmp = monitor_read_voltage(MONITOR_ADDR_1, MONITOR_UVCC);
-				debug_send_c_wait( tmp>>8 );
-				debug_send_c_wait( tmp );
+				debug_send_c_wait( tmp>>8, FALSE );
+				debug_send_c_wait( tmp, FALSE );
 
 			tmp = monitor_read_voltage(MONITOR_ADDR_2, MONITOR_UVCC);
-				debug_send_c_wait( tmp>>8 );
-				debug_send_c_wait( tmp );
+				debug_send_c_wait( tmp>>8, FALSE );
+				debug_send_c_wait( tmp, TRUE );
 			break;
 
 		case 'R':
@@ -217,7 +216,7 @@ void debug_process(void){
 			break;
 
 		default:
-			debug_send_c( 0xff );
+			debug_send_c( 0xff, TRUE );
 			break;
 
 		}
@@ -233,14 +232,12 @@ void debug_process(void){
 void debug_send_system_info(char *productName, char *productVersion, char *publisher){
 #ifdef CFG_SUART_TX
 
-	debug_send_msg( publisher );
-	debug_send_msg( "\r\n" );
-	debug_send_msg( productName );
-	debug_send_msg( " ver. " );
-	debug_send_msg( productVersion );
-	debug_send_msg( "\r\nid:" );
-	debug_send_c_wait( sys_robotID );
-	debug_send_msg( "\r\n" );
+	debug_send_msg( publisher, TRUE );
+	debug_send_msg( productName, FALSE );
+	debug_send_msg( " ver. ", FALSE );
+	debug_send_msg( productVersion, TRUE );
+	debug_send_msg( "id:", FALSE );
+	debug_send_c_wait( sys_robotID, TRUE );
 
 #endif /* CFG_SUART_TX */
 }
@@ -250,8 +247,8 @@ void debug_send_system_info(char *productName, char *productVersion, char *publi
  * Sends all available commands
  */
 void debug_send_help(void){
-	debug_send_msg( "DEBUG COMMANDS:\r\n" );
-	debug_send_msg( "abcdefghijklmnoprstuvwzM?\r\n" );
+	debug_send_msg( "DEBUG COMMANDS:", TRUE );
+	debug_send_msg( "abcdefghijklmnoprstuvwzM?", TRUE );
 
 	#if !defined(CFG_CODE_LEVEL_AVG)
 	char motors[] = {"motors"};
@@ -259,41 +256,41 @@ void debug_send_help(void){
 	char animation[] = {"anim."};
 	char voltage[] = {"volt."};
 
-	debug_send_msg( "f: ");	debug_send_msg(motors); debug_send_msg( " fwd\r\n" );
-	debug_send_msg( "b: ");	debug_send_msg(motors); debug_send_msg( " bwd\r\n" );
-	debug_send_msg( "z: ");	debug_send_msg(motors); debug_send_msg( " brake\r\n" );
-	debug_send_msg( "g: rgb leds on\r\n" );
-	debug_send_msg( "h: rgb leds off\r\n" );
-	debug_send_msg( "s: stat led on\r\n" );
-	debug_send_msg( "r: stat led off\r\n" );
-	debug_send_msg( "c: turn cw\r\n" );
-	debug_send_msg( "a: turn ccw\r\n" );
-	debug_send_msg( "m: L-");	debug_send_msg(motor); debug_send_msg( " speed\r\n" );
-	debug_send_msg( "n: R-");	debug_send_msg(motor); debug_send_msg( " speed\r\n" );
-	debug_send_msg( "o: L-");	debug_send_msg(motor); debug_send_msg( " cmd\r\n" );
-	debug_send_msg( "p: R-");	debug_send_msg(motor); debug_send_msg( " cmd\r\n" );
-	debug_send_msg( "i: bot ID\r\n" );
-	debug_send_msg( "j: publisher\r\n" );
-	debug_send_msg( "k: version\r\n" );
-	debug_send_msg( "l: name\r\n" );
-	debug_send_msg( "d: L-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
-	debug_send_msg( "e: R-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
-	debug_send_msg( "u: clear L-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
-	debug_send_msg( "v: clear R-");	debug_send_msg(motor); debug_send_msg( " faults\r\n" );
-	debug_send_msg( "M: ");	debug_send_msg(motors);	debug_send_msg( " test\r\n" );
-	debug_send_msg( "T: temp.\r\n" );
-	debug_send_msg( "U: ");	debug_send_msg(voltage); debug_send_msg( "1\r\n" );
-	debug_send_msg( "V: ");	debug_send_msg(voltage); debug_send_msg( "2\r\n" );
-	debug_send_msg( "W: ");	debug_send_msg(voltage); debug_send_msg( " bat1\r\n" );
-	debug_send_msg( "X: ");	debug_send_msg(voltage); debug_send_msg( " bat2\r\n" );
-	debug_send_msg( "I: cur. L-");	debug_send_msg(motor); debug_send_msg( "\r\n" );
-	debug_send_msg( "J: cur. R-");	debug_send_msg(motor); debug_send_msg( "\r\n" );
-	debug_send_msg( "A: VCCs\r\n" );
-	debug_send_msg( "R: red pulsed ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
-	debug_send_msg( "S: strobe ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
-	debug_send_msg( "L: lady ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
-	debug_send_msg( "F: fade ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
-	debug_send_msg( "N: no ");	debug_send_msg(animation); debug_send_msg( "\r\n" );
+	debug_send_msg( "f: ", FALSE);	debug_send_msg(motors, FALSE); debug_send_msg( " fwd", TRUE );
+	debug_send_msg( "b: ", FALSE);	debug_send_msg(motors, FALSE); debug_send_msg( " bwd", TRUE );
+	debug_send_msg( "z: ", FALSE);	debug_send_msg(motors, FALSE); debug_send_msg( " brake", TRUE );
+	debug_send_msg( "g: rgb leds on", TRUE );
+	debug_send_msg( "h: rgb leds off", TRUE );
+	debug_send_msg( "s: stat led on", TRUE );
+	debug_send_msg( "r: stat led off", TRUE );
+	debug_send_msg( "c: turn cw", TRUE );
+	debug_send_msg( "a: turn ccw", TRUE );
+	debug_send_msg( "m: L-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " speed", TRUE );
+	debug_send_msg( "n: R-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " speed", TRUE );
+	debug_send_msg( "o: L-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " cmd", TRUE );
+	debug_send_msg( "p: R-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " cmd", TRUE );
+	debug_send_msg( "i: bot ID", TRUE );
+	debug_send_msg( "j: publisher", TRUE );
+	debug_send_msg( "k: version", TRUE );
+	debug_send_msg( "l: name", TRUE );
+	debug_send_msg( "d: L-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " faults", TRUE );
+	debug_send_msg( "e: R-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " faults", TRUE );
+	debug_send_msg( "u: clear L-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " faults", TRUE );
+	debug_send_msg( "v: clear R-", FALSE);	debug_send_msg(motor, FALSE); debug_send_msg( " faults", TRUE );
+	debug_send_msg( "M: ", FALSE);	debug_send_msg(motors, FALSE);	debug_send_msg( " test", TRUE );
+	debug_send_msg( "T: temp.", TRUE );
+	debug_send_msg( "U: ", FALSE);	debug_send_msg(voltage, FALSE); debug_send_msg( "1", TRUE );
+	debug_send_msg( "V: ", FALSE);	debug_send_msg(voltage, FALSE); debug_send_msg( "2", TRUE );
+	debug_send_msg( "W: ", FALSE);	debug_send_msg(voltage, FALSE); debug_send_msg( " bat1", TRUE );
+	debug_send_msg( "X: ", FALSE);	debug_send_msg(voltage, FALSE); debug_send_msg( " bat2", TRUE );
+	debug_send_msg( "I: cur. L-", FALSE);	debug_send_msg(motor, TRUE);
+	debug_send_msg( "J: cur. R-", FALSE);	debug_send_msg(motor, TRUE);
+	debug_send_msg( "A: VCCs", TRUE );
+	debug_send_msg( "R: red pulsed ", FALSE);	debug_send_msg(animation, TRUE);
+	debug_send_msg( "S: strobe ", FALSE);	debug_send_msg(animation, TRUE);
+	debug_send_msg( "L: lady ", FALSE);	debug_send_msg(animation, TRUE);
+	debug_send_msg( "F: fade ", FALSE);	debug_send_msg(animation, TRUE);
+	debug_send_msg( "N: no ", FALSE);	debug_send_msg(animation, TRUE);
 	#endif
 }
 
@@ -303,16 +300,22 @@ void debug_send_help(void){
  * Sends a debug message string
  * via software uart
  */
-void debug_send_msg(char *s){
+void debug_send_msg(char *s, uint8_t endLine){
 	suart_puts(s);
+	if( endLine ){
+		suart_puts("\n");
+	}
 }
 
 /**
  * Send a byte via software uart
  * Doesn't care about running transmissions!
  */
-void debug_send_c(char c){
+void debug_send_c(char c, uint8_t endLine){
 	suart_putc(c);
+	if( endLine ){
+		suart_puts("\n");
+	}
 }
 
 /**
@@ -320,8 +323,11 @@ void debug_send_c(char c){
  * Wait for running transmission to finfish.
  * Can block system!
  */
-void debug_send_c_wait(char c){
+void debug_send_c_wait(char c, uint8_t endLine){
 	suart_putc_wait(c);
+	if( endLine ){
+		suart_puts("\n");
+	}
 }
 
 #endif

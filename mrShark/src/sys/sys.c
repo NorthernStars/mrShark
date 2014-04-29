@@ -32,7 +32,6 @@ void sys_init(void){
 	led_on(LED_STATUS);
 
 	control_init();
-	motor_init();
 
 	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	monitor_init();
@@ -46,6 +45,9 @@ void sys_init(void){
 
 	// activate interrupts
 	sei();
+
+	// motor init
+	motor_init();
 
 	// send system information
 	#ifndef CFG_CODE_LEVEL_MIN

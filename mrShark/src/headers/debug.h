@@ -15,8 +15,8 @@ void debug_process(void);
 void debug_send_system_info(char *productName, char *productVersion, char *publisher);
 void debug_send_help(void);
 
-void debug_send_msg(char *s);
-void debug_send_c(char c);
-void debug_send_c_wait(char c);
+void debug_send_msg(char *s, uint8_t endLine);
+void debug_send_c(char c, uint8_t endLine);
+void debug_send_c_wait(char c, uint8_t endLine);
 
 #endif /* DEBUG_H_ */

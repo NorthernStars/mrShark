@@ -74,6 +74,7 @@ void led_off(uint8_t led);
 void led_all_on(void);
 void led_all_off(void);
 
+void led_set_all_colors(uint8_t r, uint8_t g, uint8_t b);
 void led_set_colors(uint8_t r, uint8_t g, uint8_t b, uint8_t led);
 void led_set_color_red(uint8_t r, uint8_t led);
 void led_set_color_green(uint8_t g, uint8_t led);
