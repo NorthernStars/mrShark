@@ -22,8 +22,11 @@
 
 // refer to datasheet before changing the next defines.
 // values are for an DRV8830 h-bridge motor driver
-#define MOTOR_SPEED_MIN		0x06	// for internal use only. use 0xff for setting full speed!
-#define MOTOR_SPEED_MAX		0x29	// for internal use only. use 0x00 for settings min speed!
+//#define MOTOR_SPEED_MIN		0x06	// for internal use only. use 0xff for setting full speed!
+//#define MOTOR_SPEED_MAX		0x29	// for internal use only. use 0x00 for settings min speed!
+#define MOTOR_SPEED_MIN		0x0a	// for internal use only. use 0xff for setting full speed!
+#define MOTOR_SPEED_MAX		0x14	// for internal use only. use 0x00 for settings min speed!
+
 
 #define MOTOR_SPEED_HALF	0x80
 

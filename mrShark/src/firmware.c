@@ -14,8 +14,6 @@ int main(void){
 	// initiate system
 	sys_init();
 
-//	animation_set_mode(ANIMATION_MODE_LADY);
-
 	// main loop
 	while(1){
 
