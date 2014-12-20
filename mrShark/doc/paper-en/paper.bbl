@@ -1,0 +1,35 @@
+\begin{thebibliography}{1}
+
+\bibitem{eilers:13}
+H.~Eilers.
+\newblock {Entwicklung der Steuerelektronik eines Mixed-Reality Roboters unter
+  Beachtung aktueller Fertigungstechniken industrieller Kleinserien}.
+\newblock Bachelor thesis, University of Applied Sciences Kiel, August 2013.
+
+\bibitem{rtlions:faq}
+R.~Lions.
+\newblock {FAQ zur Mixed-Reality}.
+\newblock tec.reutlingen-university.de/robocup/mixed-reality/faq.html, August
+  2013.
+
+\bibitem{northernstars:mrshark}
+NorthernStars.
+\newblock {Mixed-Reality Roboter mrShark}.
+\newblock northernstars-wiki.wikidot.com/projects:mrshark, December 2014.
+
+\bibitem{northernstars:mr-system}
+NorthernStars.
+\newblock {Mixed-Reality System}.
+\newblock northernstars-wiki.wikidot.com/robocup:mrsystem, December 2014.
+
+\bibitem{sautter:88}
+R.~Sautter.
+\newblock {\em {Leiterplatten mit oberfl\"achenmontierten Bauelementen}}.
+\newblock Voegl Buchverlag, 1st edition, 1988.
+
+\bibitem{scheel:97}
+W.~Scheel.
+\newblock {\em {Baugruppentechnologie der Elektronik}}.
+\newblock Verlag Technik, 1997.
+
+\end{thebibliography}
