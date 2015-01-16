@@ -9,8 +9,8 @@
 #define MONITOR_H_
 
 // -------- CONFIGURATION --------
-#define MONITOR_ADDR_1	0x98
-#define MONITOR_ADDR_2 0x9a
+#define MONITOR_ADDR_1			0x98
+#define MONITOR_ADDR_2 			0x9a
 
 #define MONITOR_REG_STATUS		0x00
 #define MONITOR_REG_CONTROL		0x01

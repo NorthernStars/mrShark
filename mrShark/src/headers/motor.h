@@ -53,6 +53,9 @@ void motor_init(void);
 uint8_t motor_test(void);
 
 void motor_set_speed(uint8_t address, uint16_t speed, uint8_t direction);
+void motor_increase_speed(uint8_t address, uint8_t inc);
+void motor_decrease_speed(uint8_t address, uint8_t dec);
+
 void motor_brake(uint8_t address);
 void motor_all_brake(void);
 

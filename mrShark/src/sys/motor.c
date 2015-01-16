@@ -80,6 +80,27 @@ void motor_set_speed(uint8_t address, uint16_t speed, uint8_t direction){
 		speed = (speed / 100) + MOTOR_SPEED_MIN;
 		i2c_writeData( address, MOTOR_REG_CONTROL, (speed<<2)|direction );
 	}
+
+}
+
+/**
+ * Increases the motor value of the motor by inc
+ */
+void motor_increase_speed(uint8_t address, uint8_t inc){
+	motor_set_speed(
+					address,
+					control_getMotorSpeed(address) + inc,
+					control_getMotorCommand(address));
+}
+
+/**
+ * Decreases the motor value of the motor by dec
+ */
+void motor_decrease_speed(uint8_t address, uint8_t dec){
+	motor_set_speed(
+					address,
+					control_getMotorSpeed(address) - dec,
+					control_getMotorCommand(address));
 }
 
 /**
