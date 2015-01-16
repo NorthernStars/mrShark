@@ -169,6 +169,11 @@ ISR(USART_RX_vect){
 
 					// process command
 					uint8_t err = 0x00;
+					static uint8_t setIdCount = 0;
+					if( ctrl_state != CMD_V2_SET_ID ){
+						setIdCount = 0;
+					}
+
 					switch(ctrl_state){
 
 					case CMD_V2_LEFT_FWD:
@@ -283,8 +288,13 @@ ISR(USART_RX_vect){
 						break;
 
 					case CMD_V2_SET_ID:
-						ctrl_val_id = cmd;
-						ctrl_flag_id = TRUE;
+						setIdCount++;
+
+						if( setIdCount >= 3 ){
+							ctrl_val_id = cmd;
+							ctrl_flag_id = TRUE;
+							setIdCount = 0;
+						}
 						break;
 
 					case CMD_V2_TRANS_END:
