@@ -41,8 +41,10 @@ int main(void){
 		}
 
 		// check for changed robot id
-		if( ctrl_flag_id )
+		if( ctrl_flag_id ){
 			sys_ee_set_robotID( control_getRobotID() );
+			sys_external_marker_init();
+		}
 
 		// read motor currents and speeds
 		curMotorL = monitor_read_current(MONITOR_ADDR_1, MONITOR_I1);

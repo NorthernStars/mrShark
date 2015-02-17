@@ -26,6 +26,18 @@
 #define SYS_I2C_ONBOARD_SEL_CH1		0x05
 #define SYS_I2C_ONBOARD_SEL_NONE	0x00
 
+// -------- EXTERNAL MARKER I2C CONFIGURATION --------
+#define SYS_I2C_EXTERNAL_MARKER_ADDR	0xC0
+#define SYS_I2C_EXTERNAL_MARKER_PSC0	0x02
+#define SYS_I2C_EXTERNAL_MARKER_PSC1	0x04
+#define SYS_I2C_EXTERNAL_MARKER_PWM0	0x03
+#define SYS_I2C_EXTERNAL_MARKER_PWM1	0x05
+#define SYS_I2C_EXTERNAL_MARKER_LS0		0x06
+#define SYS_I2C_EXTERNAL_MARKER_LS1		0x07
+#define SYS_I2C_EXTERNAL_MARKER_LS2		0x08
+#define SYS_I2C_EXTERNAL_MARKER_LS3		0x09
+#define SYS_I2C_EXTERNAL_MARKER_AI		0x10		// auto increment
+
 // -------- INCLUDES --------
 #include <avr/io.h>
 #include <stdlib.h>
@@ -61,6 +73,7 @@ extern uint8_t  sys_ee_robotID EEMEM;
 
 // -------- FUNCTIONS --------
 void sys_init(void);
+void sys_external_marker_init();
 void sys_power_init(void);
 void sys_sleep(void);
 

@@ -27,7 +27,16 @@ void sys_init(void){
 
 	// call libraries and modules init functions
 	i2c_init();
+
+	// init external marker (if available)
+	#ifdef CFG_EXTERNAL_MARKER
+	sys_external_marker_init();
+	#endif
+
+	// enable onboard i2c
 	sys_enable_onboard_i2c();
+
+	// init leds
 	led_init();
 	led_on(LED_STATUS);
 
@@ -57,6 +66,46 @@ void sys_init(void){
 	// set led color green
 	led_off(LED_STATUS);
 
+}
+
+/**
+ * Initiates external marker pcb with robot id
+ */
+void sys_external_marker_init(){
+	if( i2c_start(SYS_I2C_EXTERNAL_MARKER_ADDR) ){
+
+		// set register
+		i2c_write(SYS_I2C_EXTERNAL_MARKER_PSC0 & SYS_I2C_EXTERNAL_MARKER_AI);
+
+		// set pwm
+		i2c_write(CFG_EXTERNAL_MARKER_PSC0);		// PSC0
+		i2c_write(CFG_EXTERNAL_MARKER_PWM0);		// PWM0
+		i2c_write(CFG_EXTERNAL_MARKER_PSC1);		// PSC1
+		i2c_write(CFG_EXTERNAL_MARKER_PWM1);		// PWM1
+
+		// generate hemming code
+		uint8_t i = sys_robotID;
+		uint8_t bEins = ( i%2 + (i >> 1)%2 + (i>>3)%2 + (i>>4)%2 ) % 2;
+		uint8_t bZwei = ( i%2 + (i >> 2)%2 + (i>>3)%2 ) % 2;
+		uint8_t bVier = ( (i >> 1)%2 + (i>>3)%2 ) % 2;
+		uint8_t bAcht = ( (i >> 4)%2 ) % 2;
+
+		uint8_t vData =
+				( bEins ? CFG_EXTERNAL_MARKER_ON_MODE : CFG_EXTERNAL_MARKER_OFF_MODE )
+				& ( bZwei? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 )
+				& ( i%2 ? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 )
+				& ( bVier ? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 )
+				& ( (i >> 1)%2 ? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 )
+				& ( (i >> 2)%2 ? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 )
+				& ( (i >> 3)%2 ? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 )
+				& ( bAcht ? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 )
+				& ( (i >> 4)%2 ? CFG_EXTERNAL_MARKER_ON_MODE << 2 : CFG_EXTERNAL_MARKER_OFF_MODE << 2 );
+
+		// set leds
+		i2c_write( vData );
+
+		i2c_stop();
+	}
 }
 
 
