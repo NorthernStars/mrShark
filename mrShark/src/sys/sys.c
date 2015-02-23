@@ -28,23 +28,43 @@ void sys_init(void){
 	// call libraries and modules init functions
 	i2c_init();
 
-	// enable onboard i2c
-	sys_enable_onboard_i2c();
+	// init external marker
+	#ifdef CFG_EXTERNAL_MARKER
+	marker_init();
+	marker_set_loading(0);
+	#endif
 
 	// init leds
 	led_init();
 	led_on(LED_STATUS);
+	#ifdef CFG_EXTERNAL_MARKER
+	marker_set_loading(1);
+	#endif
 
+	// enable onboard i2c
+	sys_enable_onboard_i2c();
+
+	// initi control
 	control_init();
+	#ifdef CFG_EXTERNAL_MARKER
+	marker_set_loading(2);
+	#endif
 
 	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 	monitor_init();
 	animation_init();
 	#endif
 
+	#ifdef CFG_EXTERNAL_MARKER
+	marker_set_loading(5);
+	#endif
+
 	#ifndef CFG_CODE_LEVEL_MIN
 	debug_init();
+	#endif
 
+	#ifdef CFG_EXTERNAL_MARKER
+	marker_set_loading(6);
 	#endif
 
 	// activate interrupts
@@ -52,55 +72,23 @@ void sys_init(void){
 
 	// motor init
 	motor_init();
+	#ifdef CFG_EXTERNAL_MARKER
+	marker_set_loading(8);
+	#endif
 
 	// send system information
 	#ifndef CFG_CODE_LEVEL_MIN
-	//debug_send_system_info(SYS_NAME, SYS_VERSION, SYS_PUBLISHER);
+	debug_send_system_info(SYS_NAME, SYS_VERSION, SYS_PUBLISHER);
 	#endif
 
-	// init external marker (if available)
+	// set marker ID
 	#ifdef CFG_EXTERNAL_MARKER
-	sys_external_marker_init();
+	marker_set_id(sys_robotID);
 	#endif
 
 	// set led color green
 	led_off(LED_STATUS);
 
-}
-
-/**
- * Initiates external marker pcb with robot id
- */
-void sys_external_marker_init(){
-
-	sys_disable_onboard_i2c();
-
-	// generate hemming code
-	uint8_t i = 13;
-	uint8_t bEins = ( i%2 + (i >> 1)%2 + (i >> 3)%2 + (i >> 4)%2 ) % 2;
-	uint8_t bZwei = ( i%2 + (i >> 2)%2 + (i >> 3)%2 ) % 2;
-	uint8_t bVier = ( (i >> 1)%2 + (i >> 2)%2 + (i >> 3)%2 ) % 2;
-	uint8_t bAcht = ( (i >> 4)%2 ) % 2;
-
-	uint8_t vData0 =
-			( bEins ? CFG_EXTERNAL_MARKER_OFF_MODE : CFG_EXTERNAL_MARKER_ON_MODE )
-			| ( bZwei? CFG_EXTERNAL_MARKER_OFF_MODE << 2 : CFG_EXTERNAL_MARKER_ON_MODE << 2 )
-			| ( i%2 ? CFG_EXTERNAL_MARKER_OFF_MODE << 4 : CFG_EXTERNAL_MARKER_ON_MODE << 4 )
-			| ( bVier ? CFG_EXTERNAL_MARKER_OFF_MODE << 6 : CFG_EXTERNAL_MARKER_ON_MODE << 6 );
-	uint8_t vData1 =
-			( (i >> 1)%2 ? CFG_EXTERNAL_MARKER_OFF_MODE : CFG_EXTERNAL_MARKER_ON_MODE )
-			| ( (i >> 2)%2 ? CFG_EXTERNAL_MARKER_OFF_MODE << 2 : CFG_EXTERNAL_MARKER_ON_MODE << 2 )
-			| ( (i >> 3)%2 ? CFG_EXTERNAL_MARKER_OFF_MODE << 4 : CFG_EXTERNAL_MARKER_ON_MODE << 4 )
-			| ( bAcht ? CFG_EXTERNAL_MARKER_OFF_MODE << 6 : CFG_EXTERNAL_MARKER_ON_MODE << 6 );
-	uint8_t vData2 = 0x54
-			| ( (i >> 4)%2 ? CFG_EXTERNAL_MARKER_ON_MODE : CFG_EXTERNAL_MARKER_OFF_MODE );
-
-	// set leds
-	i2c_writeData( SYS_I2C_EXTERNAL_MARKER_ADDR, SYS_I2C_EXTERNAL_MARKER_LS0, vData0 );
-	i2c_writeData( SYS_I2C_EXTERNAL_MARKER_ADDR, SYS_I2C_EXTERNAL_MARKER_LS1, vData1 );
-	i2c_writeData( SYS_I2C_EXTERNAL_MARKER_ADDR, SYS_I2C_EXTERNAL_MARKER_LS2, vData2 );
-
-	sys_enable_onboard_i2c();
 }
 
 

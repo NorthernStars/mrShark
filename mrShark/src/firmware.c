@@ -43,7 +43,9 @@ int main(void){
 		// check for changed robot id
 		if( ctrl_flag_id ){
 			sys_ee_set_robotID( control_getRobotID() );
-			sys_external_marker_init();
+			#ifdef CFG_EXTERNAL_MARKER
+			marker_set_id(sys_robotID);
+			#endif
 		}
 
 		// read motor currents and speeds
