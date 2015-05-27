@@ -21,11 +21,11 @@
 // -------- CODE LEVEL --------
 // uncomment ONE of the following lines to reduce code size
 // and to disable features
-//#define CFG_CODE_LEVEL_AVG				// no rgb-leds, no motor fault functions, no monitoring, basic debugging
+//#define CFG_ CODE_LEVEL_AVG				// no rgb-leds, no motor fault functions, no monitoring, basic debugging
 //#define CFG_CODE_LEVEL_MIN				// no rgb-leds, no motor fault functions, no monitoring, no debugging
 
 // -------- GENERAL CONFIGURATION --------
-#define CFG_BOT_ID	13
+#define CFG_BOT_ID					0		// robot ID, use IR prototcol to manipulate it
 #define CFG_SHOW_CONTROL_TRAFFIC	FALSE
 #define CFG_SUART_TX						// uncomment to enable software uart tx
 #define CFG_SUART_RX						// uncomment to enable software uart rx
