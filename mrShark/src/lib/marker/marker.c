@@ -23,17 +23,22 @@ void marker_init(){
 	if( marker_is_available() ){
 
 		sys_disable_onboard_i2c();
+
+		// write configuration
 		i2c_writeData( MARKER_ADDR, MARKER_PSC0, MARKER_VALUE_PSC0 );
 		i2c_writeData( MARKER_ADDR, MARKER_PSC1, MARKER_VALUE_PSC1 );
 		i2c_writeData( MARKER_ADDR, MARKER_PWM0, MARKER_VALUE_PWM0 );
+		i2c_writeData( MARKER_ADDR, MARKER_PWM1, MARKER_VALUE_PWM1 );
 		i2c_writeData( MARKER_ADDR, MARKER_LS0, MARKER_MODE_OFF_ALL );
 		i2c_writeData( MARKER_ADDR, MARKER_LS1, MARKER_MODE_OFF_ALL );
 		i2c_writeData( MARKER_ADDR, MARKER_LS2, MARKER_MODE_OFF_ALL );
 
+		// switch all leds off
 		marker_write_ls0(MARKER_MODE_OFF_ALL);
 		marker_write_ls1(MARKER_MODE_OFF_ALL);
 		marker_write_ls2(MARKER_MODE_OFF_ALL);
 		marker_write_ls3(MARKER_MODE_OFF_ALL);
+
 		sys_enable_onboard_i2c();
 
 	}

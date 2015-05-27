@@ -20,6 +20,8 @@
 #define MARKER_VALUE_PSC1	21		// external marker prescaler blink rate = (PSC + 1)/44 [s]
 #define MARKER_VALUE_PWM1	128		// external marker pwm duty cycle = (256 - PWM)/256
 
+#define MARKER_POSITION_LED	9		// led number of position lights
+
 // -------- I2C CONFIGURATION --------
 #define MARKER_ADDR	0xC0
 #define MARKER_PSC0	0x02
