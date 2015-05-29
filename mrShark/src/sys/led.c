@@ -53,6 +53,7 @@ void led_init_timer(void){
 }
 #endif
 
+#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 /**
  * Test RGB led colors
  */
@@ -65,6 +66,7 @@ void led_test(void){
 	led_set_all_colors(0x00, 0x00, 0xff);
 	_delay_ms(250);
 }
+#endif
 
 /**
  * Switches one led on

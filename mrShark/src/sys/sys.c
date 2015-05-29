@@ -72,9 +72,11 @@ void sys_init(void){
 	sei();
 
 	// check for led test
+	#if !defined(CFG_CODE_LEVEL_MIN)
 	if( sys_robotID == 0 ){
 		led_test();
 	}
+	#endif
 
 	// motor init
 	motor_init();

@@ -49,8 +49,11 @@ int main(void){
 		}
 
 		// read motor currents and speeds
+		#if !defined(CFG_CODE_LEVEL_MIN)
 		curMotorL = monitor_read_current(MONITOR_ADDR_1, MONITOR_I1);
 		curMotorR = monitor_read_current(MONITOR_ADDR_1, MONITOR_I2);
+		#endif
+
 		speedMotorL = control_getMotorSpeed(MOTOR_ADDR_L);
 		speedMotorR = control_getMotorSpeed(MOTOR_ADDR_R);
 

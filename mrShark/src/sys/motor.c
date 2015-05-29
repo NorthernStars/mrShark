@@ -30,15 +30,17 @@ void motor_init(void){
  */
 uint8_t motor_test(void){
 
+	#if !defined(CFG_CODE_LEVEL_MIN)
 	led_all_on();
 	led_set_all_colors(0xff, 0x00, 0x00);
 	_delay_ms(250);
 
 	// clear motor faults
 	led_set_all_colors(0xff, 0x50, 0x00);
-	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
+	#if !defined(CFG_CODE_LEVEL_AVG)
 	motor_clear_fault(MOTOR_ADDR_L);
 	motor_clear_fault(MOTOR_ADDR_R);
+	#endif
 	#endif
 
 	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_FORWARD);
@@ -54,9 +56,11 @@ uint8_t motor_test(void){
 
 	motor_all_brake();
 
+	#if !defined(CFG_CODE_LEVEL_MIN)
 	led_set_all_colors(0x00, 0xff, 0x00);
 	_delay_ms(250);
 	led_all_off();
+	#endif
 
 	// check if fault condition occured
 	#if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
