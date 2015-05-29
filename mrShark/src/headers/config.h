@@ -22,7 +22,7 @@
 // uncomment ONE of the following lines to reduce code size
 // and to disable features
 //#define CFG_ CODE_LEVEL_AVG				// no rgb-leds, no motor fault functions, no monitoring, basic debugging
-#define CFG_CODE_LEVEL_MIN				// no rgb-leds, no motor fault functions, no monitoring, no debugging
+//#define CFG_CODE_LEVEL_MIN				// no rgb-leds, no motor fault functions, no monitoring, no debugging
 
 // -------- GENERAL CONFIGURATION --------
 #define CFG_BOT_ID					0		// robot ID, use IR prototcol to manipulate it
