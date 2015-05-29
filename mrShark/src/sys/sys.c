@@ -32,6 +32,7 @@ void sys_init(void){
 	#ifdef CFG_EXTERNAL_MARKER
 	marker_init();
 	marker_set_loading(0);
+	marker_set_led(MARKER_POSITION_LED, MARKER_MODE_PWM1);
 	#endif
 
 	// init leds

@@ -172,6 +172,11 @@ void marker_set_id(uint8_t robotID){
 		marker_write_ls1( vData1 );
 		marker_write_ls2( vData2 );
 		marker_write_ls3( MARKER_MODE_OFF_ALL );
+
+		#ifdef CFG_EXTERNAL_MARKER_POSITION_LED
+		marker_set_led( MARKER_POSITION_LED, MARKER_MODE_ON );
+		#endif
+
 		sys_enable_onboard_i2c();
 
 	}

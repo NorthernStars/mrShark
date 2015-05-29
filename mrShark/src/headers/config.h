@@ -31,7 +31,8 @@
 #define CFG_SUART_RX						// uncomment to enable software uart rx
 
 // -------- EXTERNAL MARKER CONFIGURATION --------
-#define CFG_EXTERNAL_MARKER						// uncomment to enable external marker pcb
+#define CFG_EXTERNAL_MARKER					// uncomment to enable external marker pcb
+#define CFG_EXTERNAL_MARKER_POSITION_LED	// uncomment to enable external marker position leds
 
 // -------- ENEGRY CONFIGURATION --------
 // Set all componets to TRUE that aren't used
