@@ -54,6 +54,19 @@ void led_init_timer(void){
 #endif
 
 /**
+ * Test RGB led colors
+ */
+void led_test(void){
+	led_all_on();
+	led_set_all_colors(0xff, 0x00, 0x00);
+	_delay_ms(250);
+	led_set_all_colors(0x00, 0xff, 0x00);
+	_delay_ms(250);
+	led_set_all_colors(0x00, 0x00, 0xff);
+	_delay_ms(250);
+}
+
+/**
  * Switches one led on
  * Use defined LEDx for setting led number
  */

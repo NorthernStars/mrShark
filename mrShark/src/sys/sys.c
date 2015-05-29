@@ -71,6 +71,11 @@ void sys_init(void){
 	// activate interrupts
 	sei();
 
+	// check for led test
+	if( sys_robotID == 0 ){
+		led_test();
+	}
+
 	// motor init
 	motor_init();
 	#ifdef CFG_EXTERNAL_MARKER
