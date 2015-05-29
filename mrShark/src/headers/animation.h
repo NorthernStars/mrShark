@@ -19,9 +19,10 @@
 #define ANIMATION_MODE_STROBE			2
 #define ANIMATION_MODE_RED_PULSED		3
 #define ANIMATION_MODE_LADY				4
+#define ANIMATION_MODE_RAINBOW			5
 
 // -------- VARIABLES --------
-extern uint8_t animation_mode;
+extern volatile uint8_t animation_mode;
 
 // -------- FUNCTIONS --------
 void animation_init(void);
@@ -32,5 +33,6 @@ void animation_red_pulsed(void);
 void animation_fade(void);
 void animation_strobe(void);
 void animation_lady(void);
+void animation_rainbow(void);
 
 #endif /* ANIMATION_H_ */

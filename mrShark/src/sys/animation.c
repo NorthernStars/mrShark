@@ -9,7 +9,7 @@
 
 #if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
 // -------- VARIABLES --------
-uint8_t animation_mode = ANIMATION_MODE_NONE;
+volatile uint8_t animation_mode = ANIMATION_MODE_NONE;
 
 /**
  * Initiates animation module
@@ -42,6 +42,8 @@ void animation_process(void){
 		animation_strobe();
 	else if( animation_mode == ANIMATION_MODE_LADY )
 		animation_lady();
+	else if( animation_mode == ANIMATION_MODE_RAINBOW )
+			animation_rainbow();
 }
 
 /**
@@ -194,6 +196,54 @@ void animation_lady(void){
 		}
 
 	}
+
+}
+
+/**
+ * Rainbow animation
+ */
+void animation_rainbow(void){
+
+	static uint8_t led1[3] = {0xff, 0x00, 0x00};
+	static uint8_t led2[3] = {0x00, 0xff, 0x00};
+	static uint8_t led3[3] = {0xff, 0xff, 0x00};
+	static uint8_t led4[3] = {0x00, 0x00, 0xff};
+	static uint8_t step = 0x00;
+
+	led_all_on();
+
+	switch(step){
+	case 0:
+		led_set_colors(led1[0], led1[1], led1[2], LED_N);
+		led_set_colors(led2[0], led2[1], led2[2], LED_O);
+		led_set_colors(led3[0], led3[1], led3[2], LED_S);
+		led_set_colors(led4[0], led4[1], led4[2], LED_W);
+		break;
+
+	case 64:
+		led_set_colors(led1[0], led1[1], led1[2], LED_W);
+		led_set_colors(led2[0], led2[1], led2[2], LED_N);
+		led_set_colors(led3[0], led3[1], led3[2], LED_O);
+		led_set_colors(led4[0], led4[1], led4[2], LED_S);
+		break;
+
+	case 128:
+		led_set_colors(led1[0], led1[1], led1[2], LED_S);
+		led_set_colors(led2[0], led2[1], led2[2], LED_W);
+		led_set_colors(led3[0], led3[1], led3[2], LED_N);
+		led_set_colors(led4[0], led4[1], led4[2], LED_O);
+		break;
+
+	case 192:
+		led_set_colors(led1[0], led1[1], led1[2], LED_O);
+		led_set_colors(led2[0], led2[1], led2[2], LED_S);
+		led_set_colors(led3[0], led3[1], led3[2], LED_W);
+		led_set_colors(led4[0], led4[1], led4[2], LED_N);
+		break;
+
+	}
+
+	step++;
 
 }
 
