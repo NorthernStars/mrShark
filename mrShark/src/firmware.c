@@ -61,23 +61,23 @@ int main(void){
 		// tries to decrease speed of faster motor,
 		// or if that fails because motor is already speed minimum
 		// increases the speed of the slower motor.
-		if( curMotorL > curMotorR ){
-
-			if( speedMotorL > MOTOR_SPEED_MIN ){
-				motor_decrease_speed(MOTOR_ADDR_L, 1);
-			} else if( speedMotorR < MOTOR_SPEED_MAX ){
-				motor_increase_speed(MOTOR_ADDR_R, 1);
-			}
-
-		} else if( curMotorR > curMotorL ){
-
-			if( speedMotorR > MOTOR_SPEED_MIN ){
-				motor_decrease_speed(MOTOR_ADDR_R, 1);
-			} else if( speedMotorL < MOTOR_SPEED_MAX ){
-				motor_increase_speed(MOTOR_ADDR_L, 1);
-			}
-
-		}
+//		if( curMotorL > curMotorR ){
+//
+//			if( speedMotorL > MOTOR_SPEED_MIN ){
+//				motor_decrease_speed(MOTOR_ADDR_L, 1);
+//			} else if( speedMotorR < MOTOR_SPEED_MAX ){
+//				motor_increase_speed(MOTOR_ADDR_R, 1);
+//			}
+//
+//		} else if( curMotorR > curMotorL ){
+//
+//			if( speedMotorR > MOTOR_SPEED_MIN ){
+//				motor_decrease_speed(MOTOR_ADDR_R, 1);
+//			} else if( speedMotorL < MOTOR_SPEED_MAX ){
+//				motor_increase_speed(MOTOR_ADDR_L, 1);
+//			}
+//
+//		}
 
 		#ifndef CFG_CODE_LEVEL_MIN
 		// process debugging module
