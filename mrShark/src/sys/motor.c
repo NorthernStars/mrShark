@@ -45,14 +45,14 @@ uint8_t motor_test(void){
 
 	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_FORWARD);
 	motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_FORWARD);
-	_delay_ms(200);
+	_delay_ms(500);
 
 	motor_all_brake();
 	_delay_ms(100);
 
 	motor_set_speed(MOTOR_ADDR_R, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
 	motor_set_speed(MOTOR_ADDR_L, MOTOR_SPEED_HALF, MOTOR_BACKWARD);
-	_delay_ms(200);
+	_delay_ms(500);
 
 	motor_all_brake();
 
