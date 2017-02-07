@@ -46,7 +46,7 @@ General options can be used to configure the robots main behaviour
 | CFG_EXTERNAL_MARKER				| enabled		| uncomment to enable external marker pcb |
 | CFG_EXTERNAL_MARKER_POSITION_LED	| enabled		| uncomment to enable external marker position leds |
 
-Power saving options enabled to save battery power. Be carful in manipulating these values, while changing them maybe result in unexpected robot behaviours. The default values are just fine.
+Power saving options enables to save battery power. Be carful in manipulating these values, while changing them maybe result in unexpected robot behaviours. The default values are just fine.
 
 | Define 							| Default Value | Comment |
 | --------------------------------- | ------------- | ------- |
