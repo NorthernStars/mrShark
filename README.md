@@ -33,8 +33,12 @@ You can also comment out the defines CFG_SUART_TX and CFG_SUART_RX to disable so
 
 config.h define details
 -----------------------
+General options can be used to configure the robots main behaviour-
 | Define 							| Default Value | Comment |
 | --------------------------------- | ------------- | ------- |
+| CFG_CODE_LEVEL_AVG				| disabled		| uncomment to disable rgb-leds, motor fault functions and monitoring. Only basic debugging interface |
+| CFG_CODE_LEVEL_MIN				| disabled		| uncomment to also disbale debugging interface |
+| |
 | CFG_BOT_ID						| 0 			| robot ID, use IR prototcol to manipulate it | 
 | CFG_SHOW_CONTROL_TRAFFIC			| FALSE 		| set TRUE to show IR traffic activity on green status LED |
 | CFG_SUART_TX						| enabled		| uncomment to enable software uart tx |
@@ -43,8 +47,10 @@ config.h define details
 | CFG_EXTERNAL_MARKER				| enabled		| uncomment to enable external marker pcb |
 | CFG_EXTERNAL_MARKER_POSITION_LED	| enabled		| uncomment to enable external marker position leds |
 |  |
-| power saving option |
-| ------------------- |
+
+Power saving options
+| Define 							| Default Value | Comment |
+| --------------------------------- | ------------- | ------- |
 | CFG_POWER_DOWN_I2C				| FALSE 		| set TRUE to disable I²C/TWI interface |
 | CFG_POWER_DOWN_TIMER0				| FALSE 		| set TRUE to disable internal timer 0 |
 | CFG_POWER_DOWN_TIMER1				| FALSE 		| set TRUE to disbale internal timer 1 |
