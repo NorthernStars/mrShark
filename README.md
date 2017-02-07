@@ -11,7 +11,7 @@ Use included scripts to set fuses and programm microcontroller or use AVR plugin
 
 Configuration
 =============
-You can configure the firmware inside headers/config.h in projects source folder.
+You can configure the firmware inside headers/config.h and headers/motor.h in projects source folder.
 
 Build Level
 -----------
@@ -39,12 +39,13 @@ General options can be used to configure the robots main behaviour
 | --------------------------------- | ------------- | ------- |
 | CFG_CODE_LEVEL_AVG				| disabled		| uncomment to disable rgb-leds, motor fault functions and monitoring. Only basic debugging interface |
 | CFG_CODE_LEVEL_MIN				| disabled		| uncomment to also disbale debugging interface |
-| |
+
+| Define 							| Default Value | Comment |
+| --------------------------------- | ------------- | ------- |
 | CFG_BOT_ID						| 0 			| robot ID, use IR prototcol to manipulate it | 
 | CFG_SHOW_CONTROL_TRAFFIC			| FALSE 		| set TRUE to show IR traffic activity on green status LED |
 | CFG_SUART_TX						| enabled		| uncomment to enable software uart tx |
 | CFG_SUART_RX						| enabled		| uncomment to enable software uart rx |
-| 
 | CFG_EXTERNAL_MARKER				| enabled		| uncomment to enable external marker pcb |
 | CFG_EXTERNAL_MARKER_POSITION_LED	| enabled		| uncomment to enable external marker position leds |
 
@@ -59,6 +60,18 @@ Power saving options enabled to save battery power. Be carful in manipulating th
 | CFG_POWER_DOWN_SPI				| TRUE 			| set TRUE to disbale SPI interface |
 | CFG_POWER_DOWN_UART				| FALSE 		| set TRUE to disable UART interface |
 | CFG_POWER_DOWN_ADC				| TRUE 			| set TRUE to disable internal ADC |
+
+motor.h define details
+-----------------------
+motor.h includes some hardware specific configurations and defines for the motor driver. You should not change them unless you change the hardware.
+Anyway, you can change the motors max and min speed. The transmitted speed commant will automaticaly converted to the correct value range for the hardware driver. Be aware, that for the current hardware motor driver DRV8830, the min value is 0x06 and the max value is 0x3f. Any value outside this range will result in a wrong robot behaviour.
+
+| Define 							| Default Value | Comment |
+| --------------------------------- | ------------- | ------- |
+| MOTOR_SPEED_MIN					| 0x06			| motor minimum speed |
+| MOTOR_SPEED_MAX					| 0x3f			| motor maximum speed |
+| MOTOR_SPEED_HALF					| 0x23			| motor half speed. only used by the debuging interface |
+
 
 Boot Process
 ============
