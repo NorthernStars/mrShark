@@ -33,7 +33,8 @@ You can also comment out the defines CFG_SUART_TX and CFG_SUART_RX to disable so
 
 config.h define details
 -----------------------
-General options can be used to configure the robots main behaviour-
+General options can be used to configure the robots main behaviour
+
 | Define 							| Default Value | Comment |
 | --------------------------------- | ------------- | ------- |
 | CFG_CODE_LEVEL_AVG				| disabled		| uncomment to disable rgb-leds, motor fault functions and monitoring. Only basic debugging interface |
@@ -47,6 +48,7 @@ General options can be used to configure the robots main behaviour-
 | CFG_EXTERNAL_MARKER				| enabled		| uncomment to enable external marker pcb |
 | CFG_EXTERNAL_MARKER_POSITION_LED	| enabled		| uncomment to enable external marker position leds |
 |  |
+
 
 Power saving options
 | Define 							| Default Value | Comment |
