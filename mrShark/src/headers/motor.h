@@ -18,17 +18,14 @@
 #define MOTOR_STANDBY		0x00
 #define MOTOR_FORWARD		0x02
 #define MOTOR_BACKWARD		0x01
-#define	 MOTOR_BRAKE		0x03
+#define MOTOR_BRAKE			0x03
 
 // refer to datasheet before changing the next defines.
 // values are for an DRV8830 h-bridge motor driver
-//#define MOTOR_SPEED_MIN		0x06	// for internal use only. use 0xff for setting full speed!
-//#define MOTOR_SPEED_MAX		0x29	// for internal use only. use 0x00 for settings min speed!
 #define MOTOR_SPEED_MIN		0x06	// for internal use only. use 0x00 for setting min speed!
 #define MOTOR_SPEED_MAX		0x3f	// for internal use only. use 0xff for settings full speed!
 
-
-#define MOTOR_SPEED_HALF	0x80
+#define MOTOR_SPEED_HALF	0x23
 
 // -------- FAULT CONDITIONS --------
 #if !defined(CFG_CODE_LEVEL_AVG) && !defined(CFG_CODE_LEVEL_MIN)
