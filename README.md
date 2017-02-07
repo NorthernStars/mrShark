@@ -39,9 +39,6 @@ General options can be used to configure the robots main behaviour
 | --------------------------------- | ------------- | ------- |
 | CFG_CODE_LEVEL_AVG				| disabled		| uncomment to disable rgb-leds, motor fault functions and monitoring. Only basic debugging interface |
 | CFG_CODE_LEVEL_MIN				| disabled		| uncomment to also disbale debugging interface |
-
-| Define 							| Default Value | Comment |
-| --------------------------------- | ------------- | ------- |
 | CFG_BOT_ID						| 0 			| robot ID, use IR prototcol to manipulate it | 
 | CFG_SHOW_CONTROL_TRAFFIC			| FALSE 		| set TRUE to show IR traffic activity on green status LED |
 | CFG_SUART_TX						| enabled		| uncomment to enable software uart tx |
