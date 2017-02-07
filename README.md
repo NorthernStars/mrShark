@@ -44,6 +44,7 @@ config.h define details
 | CFG_EXTERNAL_MARKER_POSITION_LED	| enabled		| uncomment to enable external marker position leds |
 |  |
 | power saving option |
+| --- |
 | CFG_POWER_DOWN_I2C				| FALSE 		| set TRUE to disable I²C/TWI interface |
 | CFG_POWER_DOWN_TIMER0				| FALSE 		| set TRUE to disable internal timer 0 |
 | CFG_POWER_DOWN_TIMER1				| FALSE 		| set TRUE to disbale internal timer 1 |
